@@ -5,8 +5,8 @@ var svgIds = [], secSvgIds = [];
 var count = tCount = printfCount = outputLineCount = returnValCount = nodeCount = lineCount = outerLoop = innerLoop = extraNode = 1;
 var buttonName, removeLineNum, fstNdeInSecdList, typingSpeed = 10;
 var tempLine = 11, qLine = 111, infoLine =33;
-var concatflag, lineClass = flag = false;//poorna changed
-var svgIds = [], secSvgIds = [];
+var concatflag = lineClass = flag = false;//poorna changed
+var svgIds = [], secSvgIds = [], fstSvgIds = [];
 
 function documentCallFunctin() {
 	lang = getURLParameter("lang");
@@ -724,10 +724,14 @@ function initIntroJS() {
 										+ nodeCount, "#svgId", "line"+ lineCount, "arrow", function() {
 									$("#line" + lineCount).attr("class", "svg-line lineNumber");
 										removeLineNum = lineCount;
+										
 										if (returnValCount % 2 == 0) {
 											fstNdeInSecdList = nodeCount;
 											svgIds.push("#line"+ lineCount);
-										} 
+										} else {
+											fstSvgIds.push("#line"+ lineCount);
+											
+										}
 									lineCount++;
 									customIntroNxtStep("#tempValStreInQ", "", "");
 								});
@@ -749,8 +753,12 @@ function initIntroJS() {
 								lineClass = true;
 								svgAnimatingLineRightToLeft("#animatinDiv", "#nextDiv"+ (nodeCount - 1), "#dataDiv"
 										+ nodeCount, "#svgId", "line"+ lineCount, "arrow", function() {
+									
 									if (returnValCount % 2 == 0) {
 										svgIds.push("#line"+ lineCount);
+									} else {
+										fstSvgIds.push("#line"+ lineCount);
+										
 									}
 									lineClass = false;
 									lineCount++;
@@ -823,8 +831,6 @@ function initIntroJS() {
 						break;
 						case "declrL1AndL2Nodes" :
 							$("#inUnion, #inMainMet").removeClass("opacity00");
-							$("#NoOfLists, #NoOfListsInUnion").removeClass("box-border1");
-							$("#NoOfLists, #NoOfListsInUnion").addClass("box-border");
 							zoomInEffect("#l1NodeInUn", function() {
 								zoomInEffect("#l2NodeInUn", function() {
 									var selector1, selector2;
@@ -1097,6 +1103,7 @@ function initIntroJS() {
 											fromEffectWithTweenMax("#l2Val", "#nodeVal2", false, function() {
 												svgAnimatingLineLeftToRight("#animatinDiv", "#lastNodeMemory2 div:first", "#firstDiv2",
 														"#svgId", "line46", "arrow", function() {
+													
 													svgIds.push("#line46");
 													$("#nodeName0").append('<sub>intersect</sub>');
 													zoomInEffect("#lastNodeMemory0", function() {
@@ -1343,9 +1350,8 @@ function initIntroJS() {
 							fadeInBounceEffectWithTimelineMax("#nodeVal0", "#l3Val", function() {
 								setTimeout(function() {
 									$("#nodeAddress1").empty();
-									console.log('1396 false');
-									rechangeSVGLineHeights(svgIds, false);
-									rechangeSVGLineHeights(secSvgIds, false);
+									rechangeSVGLineHeights(svgIds);
+									rechangeSVGLineHeights(secSvgIds);
 									introjs.refresh();
 									printfCount = 6;
 									customIntroNxtStep("#printf6", "printIntrsction");
@@ -1470,7 +1476,7 @@ function initIntroJS() {
 										$("#nodeAddress" + nodeCount).empty();
 										introjs.refresh();
 									}
-									rechangeSVGLineHeights(svgIds, false);
+									rechangeSVGLineHeights(svgIds);
 									$("#line22, #line21").remove();
 									$("#firstNode" + nodeCount).addClass("opacity00");
 									if (flag) {
@@ -1480,12 +1486,11 @@ function initIntroJS() {
 										$("#sllOperations").empty();
 										customIntroNxtStep("#printMethod2", "printmethd3")
 									} else if((count - 1) == $('.completed').length) {
-										console.log('1513 true');
-										rechangeSVGLineHeights(svgIds, true);
+										rechangeSVGLineHeights(svgIds);
 										nodeCount++;
 										customIntroNxtStep("#callIntrsctMethod", 'methodCalling');
 									} else {
-										rechangeSVGLineHeights(svgIds, true);
+										rechangeSVGLineHeights(svgIds);
 										customIntroNxtStep("#buttonDiv");
 									}
 								}
@@ -1814,8 +1819,7 @@ function initIntroJS() {
 							+ ' and that will be initialized to <span class="ct-code-b-yellow">concat(l1, l2)</span>'
 							+ ' method passed value.';
 					}
-					typing('.introjs-tooltiptext', text, function() {//poorna changed
-						$("#NoOfLists, #NoOfListsInUnion").addClass("box-border1");
+					typing('.introjs-tooltiptext', text, function() {
 						if (lang == 'c') {
 							createLastNode(1, "t3", 2);createLastNode(1, "t1", 1);
 							introNextSteps("#animatinDiv", "declrT1AndT2Nodes", "right");
@@ -1825,7 +1829,8 @@ function initIntroJS() {
 							introNextSteps("#animatinDiv", "declrL1AndL2NodesCPP", "right");
 						}
 						if (!concatflag) {
-							rechangeSVGLineHeights(svgIds, true);
+							rechangeSVGLineHeights(fstSvgIds);
+							rechangeSVGLineHeights(svgIds);
 						}
 						$('.introjs-nextbutton').show();
 					});		
@@ -1840,7 +1845,13 @@ function initIntroJS() {
 						concatflag = true;
 						createLastNode(1, "t3", 5);createLastNode(1, "t1<sub>inUnion</sub>", 2);
 						createLastNode(1, "t2<sub>inUnion</sub>", 3);createLastNode(1, "q<sub>inUnion</sub>", 4);
-						//rechangeSVGLineHeights(svgIds, true);
+						$("#NoOfLists, #NoOfListsInUnion").removeClass("box-border1");//poorna changed
+						$("#NoOfLists, #NoOfListsInUnion").addClass("box-border");
+						
+						
+						rechangeSVGLineHeights(fstSvgIds);
+						rechangeSVGLineHeights(svgIds);
+						
 						introNextSteps("#animatinDiv", "declrL1AndL2Nodes", "right");
 						$('.introjs-nextbutton').show();
 					});
@@ -1983,7 +1994,6 @@ function initIntroJS() {
 				case "printFunction" :
 					$('.introjs-tooltip').removeClass('hide');
 					var text;
-					console.log(printfCount);
 					if (lang == 'c') {
 						text = 'Here, we are calling the <span class="ct-code-b-yellow">print()</span> method and passing'
 								+ ' <span class="ct-code-b-yellow">l' + printfCount + '</span> data (i.e., <span class="ct-code-b-yellow">'
@@ -2009,11 +2019,11 @@ function initIntroJS() {
 					typing('.introjs-tooltiptext', text, function() {
 						if ($("#concat").is(":not(.concatination)")) {
 							createLastNode(nodeCount, "t3", 2);createLastNode(nodeCount, "q", 1);
-						}
-						if (nodeCount == 1 && ($("#concat").is(":not(.concatination)"))) {
-							console.log('1928 true');
-							rechangeSVGLineHeights(svgIds, true);
-						}
+						} //poorna changed
+						/*if (nodeCount == 1 && ($("#concat").is(":not(.concatination)"))) {
+							rechangeSVGLineHeights(fstSvgIds);
+							rechangeSVGLineHeights(svgIds);
+						}*/
 						introNextSteps("#animatinDiv", "decAndStreQVal", "bottom");
 						$('.introjs-nextbutton').show();
 					});
@@ -2193,8 +2203,8 @@ function initIntroJS() {
 						break;
 						case "retunValue":
 							if (returnValCount == 1) {
-								console.log('2013 false');
-								rechangeSVGLineHeights(svgIds, false);
+								rechangeSVGLineHeights(fstSvgIds);
+								rechangeSVGLineHeights(svgIds);
 							}
 							$("#xNode").addClass("opacity00");
 							$("#xNode span").empty();
@@ -2237,8 +2247,8 @@ function initIntroJS() {
 						introNextSteps("#animatinDiv", 'declareT1T2');
 						creatingT1T2L3(function() {
 							if (returnValCount == 1) {
-								console.log('2059 true');
-								rechangeSVGLineHeights(svgIds, true);
+								rechangeSVGLineHeights(fstSvgIds);
+								rechangeSVGLineHeights(svgIds);
 							}
 							$('.introjs-nextbutton').show();
 						});
@@ -2336,8 +2346,9 @@ function initIntroJS() {
 					typing('.introjs-tooltiptext', text, function() {
 						returnValCount = 1;
 						creatingT1T2L3(function() {
-							console.log('2159 true');
-							rechangeSVGLineHeights(svgIds, true);
+							
+							rechangeSVGLineHeights(fstSvgIds);
+							rechangeSVGLineHeights(svgIds);
 							var y = parseFloat($("#line32").attr("y1")) + 57
 							$("#line32").attr({"y1" : y, "y2" : y});
 							introNextSteps("#animatinDiv", "DecT1T2L3");
@@ -2928,7 +2939,10 @@ function qNxtToT2Nxt() {
 function qNxtToT2NxtAnimation() {
 	$(".introjs-duplicate-nextbutton").remove();
 	fadeInBounceEffectWithTimelineMax("#next" + (innerLoop + 1), "#next" + innerLoop,  function() {
-		if ($("#next" + (innerLoop)).text().trim() == "NULL") {
+		$("#line" + (innerLoop)).remove();
+		$(".introjs-tooltipbuttons").append("<a class='introjs-button introjs-duplicate-nextbutton'" 
+				+ "onclick = freeQNode()>Next &#8594;</a>");
+		/*if ($("#next" + (innerLoop)).text().trim() == "NULL") {
 			$("#line" + (innerLoop)).remove();
 			$(".introjs-tooltipbuttons").append("<a class='introjs-button introjs-duplicate-nextbutton'" 
 					+ "onclick = freeQNode()>Next &#8594;</a>");
@@ -2944,9 +2958,10 @@ function qNxtToT2NxtAnimation() {
 					arrowRevilFunction(false);
 				}
 			}
-		}
+		}*/
 	});
 }
+
 function arrowRevilFunction(isArrow) {
 	if (isArrow) {
 		$("#line" + (innerLoop + 1)).remove();
@@ -2981,6 +2996,22 @@ function freeQNode() {
 
 function freeQNodeAnimation() {
 	$(".introjs-duplicate-nextbutton").remove();
+	$("#line26, #line"+ (innerLoop + 1)).remove();
+	TweenMax.to("#node" + (innerLoop + 1), 0.5, { top : -80, onComplete: function() {
+		$("#node" + (innerLoop + 1)).addClass("opacity00").remove();
+		changePosIds();
+		regenerateArrows();
+		var lValue = $("#nodeVal3").text().trim();
+	  	$(".introjs-tooltipbuttons").append("<a class='introjs-button introjs-duplicate-nextbutton'" 
+			+ "onclick = innerLoopConditionText1("+ "\"" + lValue.toString() + "\"" +")>Next &#8594;</a>");
+	}});
+	
+}
+
+
+/*
+function freeQNodeAnimation() {
+	$(".introjs-duplicate-nextbutton").remove();
 	$("#line26").remove();
 	$("#nodeVal4").text("").addClass("opacity00");
 	$("#line"+ (innerLoop)).remove();
@@ -2994,7 +3025,7 @@ function freeQNodeAnimation() {
 	  	$(".introjs-tooltipbuttons").append("<a class='introjs-button introjs-duplicate-nextbutton'" 
 			+ "onclick = innerLoopConditionText1("+ "\"" + lValue.toString() + "\"" +")>Next &#8594;</a>");
 	}});
-}
+}*/
 
 function incrementT2ValueText() {
 	$(".introjs-duplicate-nextbutton").remove();
@@ -3791,8 +3822,9 @@ function endingText() {
 				$("#line" + infoLine + ", #line" + tempLine).remove();
 				$("#nodeAddress" + returnValCount).empty();
 				if (returnValCount == 1) {
-					console.log('2013 false');
-					rechangeSVGLineHeights(svgIds, false);
+					
+					rechangeSVGLineHeights(fstSvgIds);
+					rechangeSVGLineHeights(svgIds);
 				}
 				$("#xNode").addClass("opacity00");
 				$("#xNode span").empty();
@@ -4508,13 +4540,13 @@ function removeLine() {
 	});
 }
 
-function rechangeSVGLineHeights(id, flag) {
+function rechangeSVGLineHeights(id) {
+	var selector = "#dynamicNodes2 .node"
+	if (id == fstSvgIds) {
+		selector = "#dynamicNodes1 .data-span"
+	}
 	for (var i = 0; i < id.length; i++) {
-		if (flag == true) {
-		  var y = (parseFloat($(id[i]).attr("y1")) + $('#dynamicNodes2 .node').outerHeight());
-		} else {
-			var y = (parseFloat($(id[i]).attr("y1")) - $('#dynamicNodes2 .node').outerHeight());
-		}
+		var y = ($(selector).eq(i).offset().top + $(selector).eq(i).height()/2) - $("svg").offset().top;
 		$(id[i]).attr({"y1" : y, "y2" : y});
 	}
 }
@@ -4522,7 +4554,7 @@ function rechangeSVGLineHeights(id, flag) {
 function clickMethod() {
 	$(".lnodes, .lnodevalues, #firstNode1, #firstVal1, #lastNodeMemory1, #nodeVal1").addClass("opacity00");
 	$("#inMainMet, #inUnion, .unionNodes, #l1ValInUn").addClass("opacity00");
-	$("#NoOfLists, #NoOfListsInUnion").removeClass("box-border box-border1");
+	$("#NoOfLists, #NoOfListsInUnion").removeClass("box-border box-border1"); //poorna changed
 	$("#buttonDiv").removeClass("opacity00");
 	$(".buttons").removeClass("disabled");
 	$("#nodeAddress1, #nodeAddress2, #firstList, #secondList, #thirdList, #nodeAddress3").empty();
@@ -4603,16 +4635,31 @@ function declrFourNodesAnim() {
 
 function regenerateArrows() {
 	$('.lineNumber').remove();
+	$('line').remove();
 	if (lang == 'cpp') {
 		svgAnimatingLineRightToLeft("#animatinDiv", "#firstDiv1", "#dataDiv1", "#svgId", "line1", "arrow");
 		$('#line1').attr("class", "svg-line lineNumber");
+	} else {
+	$('#line22, #line23').remove()
+		svgAnimatingLineTopToBottom("#animatinDiv", "#lastNodeMemory2", "#nextDiv"
+						+ outerLoop, "#svgId", "line22", "arrow");
+		svgAnimatingLineTopToBottom("#animatinDiv", "#lastNodeMemory3", "#nextDiv"
+						+ outerLoop, "#svgId", "line23", "arrow", function() {
+		});				
 	}
-	for (var i = 1; i < $('.nodes').length; i++) {
-		svgAnimatingLineRightToLeft("#animatinDiv", "#nextDiv" + i, "#dataDiv"
-					+ (i + 1), "#svgId", "line" + (i + 1), "arrow", function() {
-			$('#line' + (i + 1)).attr("class", "svg-line lineNumber");
-		});
-	 }
+	for (var i = 1; i < $('.node').length; i++) {
+		if (i == $('#dynamicNodes1 .node').length) {
+			svgAnimatingLineBottomToTop("#animatinDiv", "#nextDiv" + i, "#dataDiv"
+					+ (i + 1), "#svgId", "line" + (i), "arrow", function() {
+			$('#line' + (i)).attr("class", "svg-line lineNumber");	
+			});
+		} else {
+			svgAnimatingLineRightToLeft("#animatinDiv", "#nextDiv" + i, "#dataDiv"
+					+ (i + 1), "#svgId", "line" + (i), "arrow", function() {
+			$('#line' + (i)).attr("class", "svg-line lineNumber");	
+			});
+		}
+	}
 }
 
 

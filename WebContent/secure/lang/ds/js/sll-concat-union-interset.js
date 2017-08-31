@@ -927,10 +927,25 @@ function initIntroJS() {
 								});
 							});
 						break;
+						case "storeT1Value" :
+							$('#animatinDiv').removeClass('z-index1000000');
+							var selector = '#firstVal1';
+							if ($('#firstVal1').text().trim() == "NULL" && $('#firstVal1').text().trim() != "NULL" ) {
+								var selector = '#firstVal2';
+							}
+							fadeInBounceEffectWithTimelineMax(selector, '#firstVal3', function() {
+								customIntroNxtStep("#p3", "", "bottom");
+								
+							});
+						break;
 						case "storeT3ToL3" :
 							var selector, selector1;
 							if (concatflag) {
-								selector = "#l3ValInUn";
+								if (lang == 'c') {
+									selector = "#l3ValInUn";
+								} else {
+									selector = '#firstValMain';
+								}
 							} else if (lang == 'c') {
 								selector = "#l3Val"; 
 							} else if (lang == 'cpp') {
@@ -953,10 +968,9 @@ function initIntroJS() {
 								}
 							}
 							fadeInBounceEffectWithTimelineMax(selector1, selector, function() {
-								if (lang == 'cpp' && ($("#nodeVal1").text().trim() == "NULL" || $("#firstVal2").text().trim() == "NULL")) {	//changed
-									$('#nodeAddress2').empty();
-								}
-								valStoreInT3Node();
+								setTimeout(function() {
+									valStoreInT3Node();
+								},300);
 							});
 						break;
 						case "storeUnionl3Value" :
@@ -1350,8 +1364,8 @@ function initIntroJS() {
 							fadeInBounceEffectWithTimelineMax("#nodeVal0", "#l3Val", function() {
 								setTimeout(function() {
 									$("#nodeAddress1").empty();
-									rechangeSVGLineHeights(svgIds);
-									rechangeSVGLineHeights(secSvgIds);
+									rechangeSVGLineHeights(svgIds, "#dynamicNodes2 .node"); //poorna changed
+									//rechangeSVGLineHeights(secSvgIds);
 									introjs.refresh();
 									printfCount = 6;
 									customIntroNxtStep("#printf6", "printIntrsction");
@@ -1476,7 +1490,8 @@ function initIntroJS() {
 										$("#nodeAddress" + nodeCount).empty();
 										introjs.refresh();
 									}
-									rechangeSVGLineHeights(svgIds);
+									
+									rechangeSVGLineHeights(svgIds, "#dynamicNodes2 .node");//poorna changed
 									$("#line22, #line21").remove();
 									$("#firstNode" + nodeCount).addClass("opacity00");
 									if (flag) {
@@ -1486,11 +1501,11 @@ function initIntroJS() {
 										$("#sllOperations").empty();
 										customIntroNxtStep("#printMethod2", "printmethd3")
 									} else if((count - 1) == $('.completed').length) {
-										rechangeSVGLineHeights(svgIds);
+										rechangeSVGLineHeights(svgIds, "#dynamicNodes2 .node");//poorna changed
 										nodeCount++;
 										customIntroNxtStep("#callIntrsctMethod", 'methodCalling');
 									} else {
-										rechangeSVGLineHeights(svgIds);
+										rechangeSVGLineHeights(svgIds, "#dynamicNodes2 .node");//poorna changed
 										customIntroNxtStep("#buttonDiv");
 									}
 								}
@@ -1828,10 +1843,9 @@ function initIntroJS() {
 							createLastNode(2, "t", 8);createLastNode(2, "l2.first<sub>concat</sub>", 2);
 							introNextSteps("#animatinDiv", "declrL1AndL2NodesCPP", "right");
 						}
-						if (!concatflag) {
-							rechangeSVGLineHeights(fstSvgIds);
-							rechangeSVGLineHeights(svgIds);
-						}
+						
+						rechangeSVGLineHeights(fstSvgIds, "#dynamicNodes1 .data-span");//poorna changed
+						rechangeSVGLineHeights(svgIds, "#dynamicNodes2 .node");//poorna changed
 						$('.introjs-nextbutton').show();
 					});		
 				break;
@@ -1845,13 +1859,9 @@ function initIntroJS() {
 						concatflag = true;
 						createLastNode(1, "t3", 5);createLastNode(1, "t1<sub>inUnion</sub>", 2);
 						createLastNode(1, "t2<sub>inUnion</sub>", 3);createLastNode(1, "q<sub>inUnion</sub>", 4);
-						$("#NoOfLists, #NoOfListsInUnion").removeClass("box-border1");//poorna changed
-						$("#NoOfLists, #NoOfListsInUnion").addClass("box-border");
-						
-						
-						rechangeSVGLineHeights(fstSvgIds);
-						rechangeSVGLineHeights(svgIds);
-						
+						$("#NoOfLists, #NoOfListsInUnion").removeClass("box-border1").addClass("box-border");//poorna changed
+						rechangeSVGLineHeights(fstSvgIds, "#dynamicNodes1 .data-span");//poorna changed
+						rechangeSVGLineHeights(svgIds, "#dynamicNodes2 .node");//poorna changed
 						introNextSteps("#animatinDiv", "declrL1AndL2Nodes", "right");
 						$('.introjs-nextbutton').show();
 					});
@@ -2061,6 +2071,7 @@ function initIntroJS() {
 				break;
 				case "nodeRepeation" :
 					removeLine();
+					$('#unionOperations').empty()
 					unionOperationFunction();
 					customIntroNxtStep("#unionOperations", "", "left");
 				break;
@@ -2203,8 +2214,8 @@ function initIntroJS() {
 						break;
 						case "retunValue":
 							if (returnValCount == 1) {
-								rechangeSVGLineHeights(fstSvgIds);
-								rechangeSVGLineHeights(svgIds);
+								rechangeSVGLineHeights(fstSvgIds, "#dynamicNodes1 .data-span");//poorna changed
+								rechangeSVGLineHeights(svgIds, "#dynamicNodes2 .node");//poorna changed
 							}
 							$("#xNode").addClass("opacity00");
 							$("#xNode span").empty();
@@ -2247,8 +2258,8 @@ function initIntroJS() {
 						introNextSteps("#animatinDiv", 'declareT1T2');
 						creatingT1T2L3(function() {
 							if (returnValCount == 1) {
-								rechangeSVGLineHeights(fstSvgIds);
-								rechangeSVGLineHeights(svgIds);
+								rechangeSVGLineHeights(fstSvgIds, "#dynamicNodes1 .data-span");//poorna changed
+								rechangeSVGLineHeights(svgIds, "#dynamicNodes2 .node");//poorna changed
 							}
 							$('.introjs-nextbutton').show();
 						});
@@ -2346,9 +2357,8 @@ function initIntroJS() {
 					typing('.introjs-tooltiptext', text, function() {
 						returnValCount = 1;
 						creatingT1T2L3(function() {
-							
-							rechangeSVGLineHeights(fstSvgIds);
-							rechangeSVGLineHeights(svgIds);
+							rechangeSVGLineHeights(fstSvgIds, "#dynamicNodes1 .data-span");//poorna changed
+							rechangeSVGLineHeights(svgIds, "#dynamicNodes2 .node");//poorna changed
 							var y = parseFloat($("#line32").attr("y1")) + 57
 							$("#line32").attr({"y1" : y, "y2" : y});
 							introNextSteps("#animatinDiv", "DecT1T2L3");
@@ -2639,7 +2649,11 @@ function firstForLoopFalseCon() {
 		$("#firstLoopTrueOrFalse").removeClass("green-color");
 		$("#firstLoopTrueOrFalse").text("=====> false").addClass("red-color");
 		concatflag = false;
-		introNextSteps("#returnT4", "", "left");
+		if (lang == 'c') {
+			introNextSteps("#returnT4", "", "left");
+		} else { //poorna changed
+			introNextSteps("#animatinDiv", "storeT1Value", "bottom");
+		}
 		$('.introjs-nextbutton').show();
 	});
 }
@@ -3479,11 +3493,19 @@ function l1L2NorEqlNullArrowAfterAnimation(val) {
 				customIntroNxtStep("#whileQNotEqNull", "", "bottom");
 			} else {
 				if (val == 1) {
-					svgAnimatingLineTopToBottom("#animatinDiv", "#lastNodeMemory1", "#nextDiv"
-						+ count, "#svgId", "line22", "arrow", function() {
-						$("#animatinDiv").addClass("z-index1000000");
-             			customIntroNxtStep("#whileQNotEqNull", "", "bottom");
-             		});
+					if ($('#dynamicNodes1 .node').length >= innerLoop || $('#dynamicNodes1 .node').length >= outerLoop) {
+						svgAnimatingLineTopToBottom("#animatinDiv", "#lastNodeMemory1", "#nextDiv"
+								+ count, "#svgId", "line22", "arrow", function() {
+							$("#animatinDiv").addClass("z-index1000000");
+							customIntroNxtStep("#whileQNotEqNull", "", "bottom");
+						});
+					} else {
+						svgAnimatingLineBottomToTop("#animatinDiv", "#lastNodeMemory1", "#nextDiv"
+								+ count, "#svgId", "line22", "arrow", function() {
+							$("#animatinDiv").addClass("z-index1000000");
+							customIntroNxtStep("#whileQNotEqNull", "", "bottom");
+						});
+					}
 				} else {
 					svgAnimatingLineRightToLeft("#animatinDiv", "#lastNodeMemory1", "#dataDiv"
 							+ count, "#svgId", "line22", "arrow", function() {
@@ -3822,9 +3844,9 @@ function endingText() {
 				$("#line" + infoLine + ", #line" + tempLine).remove();
 				$("#nodeAddress" + returnValCount).empty();
 				if (returnValCount == 1) {
-					
-					rechangeSVGLineHeights(fstSvgIds);
-					rechangeSVGLineHeights(svgIds);
+
+					rechangeSVGLineHeights(fstSvgIds, "#dynamicNodes1 .data-span");//poorna changed
+					rechangeSVGLineHeights(svgIds, "#dynamicNodes2 .node");//poorna changed
 				}
 				$("#xNode").addClass("opacity00");
 				$("#xNode span").empty();
@@ -4155,6 +4177,10 @@ function mainFrSorting(idxVal) {
 }
 
 function valStoreInT3Node() {
+	if (lang == 'cpp' && ($("#nodeVal1").text().trim() == "NULL" || $("#firstVal2").text().trim() == "NULL")) {	//changed
+		$('#nodeAddress2').empty();
+	}
+	
 	$("#line" + fstNdeInSecdList + ", #line21, #line31, #line32").remove();
 	if (lang == 'c') {
 		$("#firstNode1, #firstNode2").addClass("opacity00");
@@ -4540,11 +4566,7 @@ function removeLine() {
 	});
 }
 
-function rechangeSVGLineHeights(id) {
-	var selector = "#dynamicNodes2 .node"
-	if (id == fstSvgIds) {
-		selector = "#dynamicNodes1 .data-span"
-	}
+function rechangeSVGLineHeights(id, selector) { //poorna changed
 	for (var i = 0; i < id.length; i++) {
 		var y = ($(selector).eq(i).offset().top + $(selector).eq(i).height()/2) - $("svg").offset().top;
 		$(id[i]).attr({"y1" : y, "y2" : y});
@@ -4553,11 +4575,10 @@ function rechangeSVGLineHeights(id) {
 
 function clickMethod() {
 	$(".lnodes, .lnodevalues, #firstNode1, #firstVal1, #lastNodeMemory1, #nodeVal1").addClass("opacity00");
-	$("#inMainMet, #inUnion, .unionNodes, #l1ValInUn").addClass("opacity00");
+	$("#inMainMet, #inUnion, .unionNodes, #l1ValInUn, #unionOperations").addClass("opacity00");
 	$("#NoOfLists, #NoOfListsInUnion").removeClass("box-border box-border1"); //poorna changed
-	$("#buttonDiv").removeClass("opacity00");
-	$(".buttons").removeClass("disabled");
-	$("#nodeAddress1, #nodeAddress2, #firstList, #secondList, #thirdList, #nodeAddress3").empty();
+	$("#buttonDiv").removeClass("opacity00"); $(".buttons").removeClass("disabled");
+	$("#unionOperations, #nodeAddress1, #nodeAddress2, #firstList, #secondList, #thirdList, #nodeAddress3").empty();
 	$("#animatinDiv").removeClass("z-index1000000");
 	$('line').remove();
 	if (lang == 'c') {
@@ -4565,7 +4586,7 @@ function clickMethod() {
 	}
 	tempLine = 11, qLine = 111, removeLineNum, fstNdeInSecdList;
 	count = tCount = printfCount = outputLineCount = returnValCount = nodeCount = lineCount = 1;
-	svgIds = [], secSvgIds = [];
+	svgIds = [], secSvgIds = [], fstSvgIds = [];
 	$("#intersect, #concat").removeClass("intersection concatination");
 	
 	$("#concat").click(function() {
@@ -4637,16 +4658,29 @@ function regenerateArrows() {
 	$('.lineNumber').remove();
 	$('line').remove();
 	if (lang == 'cpp') {
-		svgAnimatingLineRightToLeft("#animatinDiv", "#firstDiv1", "#dataDiv1", "#svgId", "line1", "arrow");
-		$('#line1').attr("class", "svg-line lineNumber");
-	} else {
+		if ($('#firstVal1').text().trim() != "NULL" && $('#dynamicNodes1 .node').length != 0) {
+			svgAnimatingLineRightToLeft("#animatinDiv", "#firstDiv1", "#dataDiv1", "#svgId", "line111", "arrow");
+			$('#line111').attr("class", "svg-line lineNumber");
+		}
+		if ($('#firstVal2').text().trim() != "NULL" && $('#dynamicNodes2 .node').length != 0) {
+			svgAnimatingLineRightToLeft("#animatinDiv", "#firstDiv2", '#dynamicNodes2 .data-div:first', "#svgId", "line222", "arrow");
+			$('#line222').attr("class", "svg-line lineNumber");
+		}
+	} 
+	
 	$('#line22, #line23').remove()
+	if ($('#dynamicNodes1 .node').length >= innerLoop || $('#dynamicNodes1 .node').length >= outerLoop) {
 		svgAnimatingLineTopToBottom("#animatinDiv", "#lastNodeMemory2", "#nextDiv"
-						+ outerLoop, "#svgId", "line22", "arrow");
+				+ outerLoop, "#svgId", "line22", "arrow");
 		svgAnimatingLineTopToBottom("#animatinDiv", "#lastNodeMemory3", "#nextDiv"
-						+ outerLoop, "#svgId", "line23", "arrow", function() {
-		});				
+				+ innerLoop, "#svgId", "line23", "arrow");
+	} else {
+		svgAnimatingLineBottomToTop("#animatinDiv", "#lastNodeMemory2", "#nextDiv"
+				+ outerLoop, "#svgId", "line22", "arrow");
+		svgAnimatingLineBottomToTop("#animatinDiv", "#lastNodeMemory3", "#nextDiv"
+				+ innerLoop, "#svgId", "line23", "arrow");
 	}
+	
 	for (var i = 1; i < $('.node').length; i++) {
 		if (i == $('#dynamicNodes1 .node').length) {
 			svgAnimatingLineBottomToTop("#animatinDiv", "#nextDiv" + i, "#dataDiv"

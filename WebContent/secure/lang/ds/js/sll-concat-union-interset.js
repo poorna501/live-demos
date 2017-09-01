@@ -720,21 +720,19 @@ function initIntroJS() {
 						break;
 						case "tempValStredInFirst":
 							fadeInBounceEffectWithTimelineMax("#nodeVal1", "#firstVal" + returnValCount ,function() {
-								svgAnimatingLineRightToLeft("#animatinDiv", "#firstDiv"+ returnValCount, "#dataDiv"
-										+ nodeCount, "#svgId", "line"+ lineCount, "arrow", function() {
-									$("#line" + lineCount).attr("class", "svg-line lineNumber");
-										removeLineNum = lineCount;
-										
-										if (returnValCount % 2 == 0) {
-											fstNdeInSecdList = nodeCount;
-											svgIds.push("#line"+ lineCount);
-										} else {
-											fstSvgIds.push("#line"+ lineCount);
-											
-										}
-									lineCount++;
-									customIntroNxtStep("#tempValStreInQ", "", "");
-								});
+								if (lang == 'c') {//poorna changed
+									returnToRevilArrow("line"+ lineCount);
+								} else {
+									if ("#firstVal" + returnValCount == "#firstVal1") {
+										returnToRevilArrow("line1111");
+										fstSvgIds.push("#line1111");
+									} else if ("#firstVal" + returnValCount == "#firstVal2") {
+										fstNdeInSecdList = nodeCount;
+										svgIds.push("#line222");
+										returnToRevilArrow("line222");
+									} 
+								} 
+								
 							});
 						break;
 						case "tempValStredInQ" :
@@ -786,10 +784,17 @@ function initIntroJS() {
 										}
 										$("#firstVal2").text($(selector2).text());
 										fromEffectWithTweenMax(selector2, "#firstVal2", false, function() {
-											if (($("#firstVal2").text()).trim() != "NULL") {
-												$("#line" + removeLineNum).remove();
-												svgAnimatingLineRightToLeft("#animatinDiv", "#firstDiv2","#dataDiv"+ fstNdeInSecdList, "#svgId", 
-														"line"+ removeLineNum, "arrow");
+											if (($("#firstVal2").text()).trim() != "NULL") {//poorna changed
+												if (lang == 'c') {
+													$("#line" + removeLineNum).remove();
+													svgAnimatingLineRightToLeft("#animatinDiv", "#firstDiv2","#dataDiv"+ fstNdeInSecdList, "#svgId", 
+															"line"+ removeLineNum, "arrow");
+												} else {
+													$("#line222").remove();
+													svgAnimatingLineRightToLeft("#animatinDiv", "#firstDiv2","#dataDiv"+ fstNdeInSecdList, "#svgId", 
+															"line222", "arrow");
+												}
+												
 											}
 											setTimeout(function() {
 												customIntroNxtStep("#decNodeT3", "", "bottom");
@@ -876,7 +881,7 @@ function initIntroJS() {
 								});
 							} else if (lang == 'cpp') {
 								var text = $("#nodeVal1").text().trim();
-								fadeInBounceEffectWithTimelineMax("#nodeVal1", '#firstValMain', function() {
+								fadeInBounceEffectWithTimelineMax("#nodeVal1", '#firstVal3', function() {
 									streT1ToT3Anim(text);
 								});
 							}
@@ -944,12 +949,12 @@ function initIntroJS() {
 								if (lang == 'c') {
 									selector = "#l3ValInUn";
 								} else {
-									selector = '#firstValMain';
+									selector = '#firstVal3';
 								}
 							} else if (lang == 'c') {
 								selector = "#l3Val"; 
 							} else if (lang == 'cpp') {
-								selector = '#firstValMain';
+								selector = '#firstVal3';
 							}
 							if (lang == 'c') {
 								if ($("#nodeVal1").text().trim() == "NULL") {
@@ -1022,7 +1027,7 @@ function initIntroJS() {
 								if (lang == 'c') {
 									selector = '#firstVal1';
 								} else if (lang == 'cpp') {
-									selector = '#firstValMain';
+									selector = '#firstVal3';
 								}
 								zoomInEffect("#lastNodeMemory1" , function() {
 									$("#nodeVal1").text($(selector).text());
@@ -2043,7 +2048,7 @@ function initIntroJS() {
 					if (lang == 'c') {
 						selector = '#firstVal1';
 					} else if (lang == 'cpp') {
-						selector = '#firstValMain';
+						selector = '#firstVal3';
 					}
 					ifConditionCheckingText("first", " == NULL", function() {
 						toEffectAnimation("#ifFstEqNull", "#ifConForAddNode", function() {
@@ -2088,7 +2093,7 @@ function initIntroJS() {
 						} else if (lang == 'cpp') {
 							var text = "The <span class='ct-code-b-yellow'>t1</span> value is initialized to "
 									+ " <span class='ct-code-b-yellow'>first</span>"
-									+ " (i.e <span class='ct-code-b-yellow'>"+$("#firstValMain").text() +"</span>)";
+									+ " (i.e <span class='ct-code-b-yellow'>"+ $("#firstVal3").text() +"</span>)";
 						}
 						typing('.introjs-tooltiptext', text, function() {
 							$(".introjs-tooltipbuttons").append("<br><a class='introjs-button introjs-duplicate-nextbutton'" 
@@ -2572,7 +2577,7 @@ function outerLoopIniializationText() {
 		selector = '#l3ValInit';
 		selector1 = "#l3ValInUn";
 	} else if (lang == 'cpp') {
-		selector = selector1 = '#firstValMain';
+		selector = selector1 = '#firstVal3';
 	}
 	var t1Val = $(selector1).text().trim();
 	rotationEffect("#l3ValInit",  t1Val, function() {
@@ -2600,7 +2605,7 @@ function outerLoopConditionText(t1Val) {
 		if (lang == 'c') {
 			selector = '#l3ValInUn';
 		} else if (lang == 'cpp') {
-			selector = '#firstValMain';
+			selector = '#firstVal3';
 		}
 		if (outerLoop == 1) {
 			t1Val = $(selector).text().trim();
@@ -2615,7 +2620,7 @@ function outerLoopConditionText(t1Val) {
 
 function outerLoopCheck(t1Val) {
 	$(".introjs-duplicate-nextbutton").remove();
-	$("#secondLoopTrueOrFalse, #ifConTrueorFalse").empty()
+	$("#secondLoopTrueOrFalse, #ifConTrueorFalse").removeClass('red-color').empty()
 	$("#secFstCon, #secSecCon").removeClass("true");
 	$("#secFstCon, #secSecCon").removeClass("false");
 	checkCondition("#t1", "#fstFstCon", t1Val, function() {
@@ -2950,9 +2955,14 @@ function qNxtToT2Nxt() {
 	
 }
 
-function qNxtToT2NxtAnimation() {
+function qNxtToT2NxtAnimation() { //poorna changed
 	$(".introjs-duplicate-nextbutton").remove();
 	fadeInBounceEffectWithTimelineMax("#next" + (innerLoop + 1), "#next" + innerLoop,  function() {
+		if (lang == 'cpp') {
+			if ($("#next" + innerLoop).text().trim() == $("#firstVal2").text().trim()) {
+				$("#line222").remove();
+			}
+		}
 		$("#line" + (innerLoop)).remove();
 		$(".introjs-tooltipbuttons").append("<a class='introjs-button introjs-duplicate-nextbutton'" 
 				+ "onclick = freeQNode()>Next &#8594;</a>");
@@ -3008,7 +3018,7 @@ function freeQNode() {
 	});
 }
 
-function freeQNodeAnimation() {
+function freeQNodeAnimation() { //poorna changed
 	$(".introjs-duplicate-nextbutton").remove();
 	$("#line26, #line"+ (innerLoop + 1)).remove();
 	TweenMax.to("#node" + (innerLoop + 1), 0.5, { top : -80, onComplete: function() {
@@ -4554,6 +4564,21 @@ function changePosIds() {
 	}
 }
 
+/*
+function changeLineIds() {
+	for (var i = 1; i < $('.node').length; i++) {
+		if (i == $('#dynamicNodes1 .node').length) {
+			$('#line' + (i)).attr("class", "svg-line lineNumber");
+			$('#line' + (i)).attr("id", "svg-line lineNumber");
+		} else {
+			svgAnimatingLineRightToLeft("#animatinDiv", "#nextDiv" + i, "#dataDiv"
+					+ (i + 1), "#svgId", "line" + (i), "arrow", function() {
+				
+			});
+		}
+	}
+}
+*/
 function removeLine() {
 	var abc = [];
 	var len = $("#dynamicNodes1 > .node").length;
@@ -4659,14 +4684,19 @@ function regenerateArrows() {
 	$('line').remove();
 	if (lang == 'cpp') {
 		if ($('#firstVal1').text().trim() != "NULL" && $('#dynamicNodes1 .node').length != 0) {
-			svgAnimatingLineRightToLeft("#animatinDiv", "#firstDiv1", "#dataDiv1", "#svgId", "line111", "arrow");
-			$('#line111').attr("class", "svg-line lineNumber");
+			svgAnimatingLineRightToLeft("#animatinDiv", "#firstDiv1", "#dataDiv1", "#svgId", "line1111", "arrow");
+			$('#line1111').attr("class", "svg-line");
 		}
 		if ($('#firstVal2').text().trim() != "NULL" && $('#dynamicNodes2 .node').length != 0) {
 			svgAnimatingLineRightToLeft("#animatinDiv", "#firstDiv2", '#dynamicNodes2 .data-div:first', "#svgId", "line222", "arrow");
-			$('#line222').attr("class", "svg-line lineNumber");
+			$('#line222').attr("class", "svg-line");
 		}
 	} 
+	if ($('#dynamicNodes2 .node').length != 0) {
+		$('#firstVal2').text($('#dynamicNodes2 .data-address:first').text());
+	} else {
+		$('#firstVal2').text('NULL');
+	}
 	
 	$('#line22, #line23').remove()
 	if ($('#dynamicNodes1 .node').length >= innerLoop || $('#dynamicNodes1 .node').length >= outerLoop) {
@@ -4697,3 +4727,22 @@ function regenerateArrows() {
 }
 
 
+function returnToRevilArrow(lineId) { //poorna changed
+	svgAnimatingLineRightToLeft("#animatinDiv", "#firstDiv"+ returnValCount, "#dataDiv"
+			+ nodeCount, "#svgId", lineId, "arrow", function() {
+			removeLineNum = lineCount;
+			$('#'+lineId).attr("class", "svg-line");
+			if (lang == 'c') {
+				$('#'+lineId).attr("class", "svg-line lineNumber");
+				lineCount++;
+				if (returnValCount % 2 == 0) {
+					fstNdeInSecdList = nodeCount;
+					svgIds.push("#line"+ lineCount);
+				} else {
+					fstSvgIds.push("#line"+ lineCount);
+					
+				}
+			} 
+		customIntroNxtStep("#tempValStreInQ", "", "");
+	});
+}

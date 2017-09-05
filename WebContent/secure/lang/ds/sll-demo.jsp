@@ -21,6 +21,7 @@
 
 <title>Singly Linked List</title>
 <style>
+
 .introjs-tooltip {
 	min-width: 350px;
 }

@@ -163,15 +163,16 @@ function introFunction() {
 				});
 			break;
 			case "restartBtn":
+				$('.introjs-tooltip').css('min-width','');
 				$('#parentPre').addClass('z-index1000000');
 				$("#restartBtn").removeClass('opacity00');
-				$('.introjs-tooltip').removeClass('hide');
+				/*$('.introjs-tooltip').removeClass('hide');
 				$('.introjs-tooltip').addClass('introjs-tooltip-min-width');
 				text = 'Click to restart.';
-				typing('.introjs-tooltiptext', text, function() {
+				typing('.introjs-tooltiptext', text, function() {*/
 					$('#restartBtn').click(function() {
 						location.reload();
-					});
+					//});
 				});
 			break;
 			}

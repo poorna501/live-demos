@@ -44,7 +44,7 @@ var LL_ELEM_SPACING = 150;
 var LL_LINE_SPACING = 70;
 
 //size of the linked list
-var SIZE = 25;
+var SIZE = 19;
 var firstNodeAdd;
 var firstNodeAdd = getRandomInt(1000, 5000);
 var address = []
@@ -127,14 +127,23 @@ CircularQLL.prototype.setUp = function() {
 	this.animationManager.clearHistory();
 }
 
-CircularQLL.prototype.resetLinkedListPositions = function() {
-		var nextX = (this.rear - 1 ) % LL_ELEMS_PER_LINE
-				* LL_ELEM_SPACING + LL_START_X - LL_NEXT_WIDTH;
-		var nextY = Math.floor((this.rear - 1) / LL_ELEMS_PER_LINE)
-				* LL_LINE_SPACING + LL_START_Y;
-		this.cmd("Move", this.cqllData[this.rear - 1], nextX, nextY);
-		this.cmd("Move", this.cqllNext[this.rear - 1], nextX + LL_ELEM_WIDTH - 25, nextY);
-		this.cmd("Move", this.dataAddress[this.rear - 1], nextX + 25, nextY + 25);
+CircularQLL.prototype.resetLinkedListPositions = function(flag) {
+		if (flag) {
+			let nextX = (this.rear - 1) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X - LL_NEXT_WIDTH;
+			let nextY = Math.floor((this.rear - 1) / LL_ELEMS_PER_LINE)* LL_LINE_SPACING + LL_START_Y;
+			this.cmd("Move", this.cqllData[this.rear - 1], nextX, nextY);
+			this.cmd("Move", this.cqllNext[this.rear - 1], nextX + LL_ELEM_WIDTH - 25, nextY);
+			this.cmd("Move", this.dataAddress[this.rear - 1], nextX + 25, nextY + 25);
+		} else {
+			for (let i = this.rear - 1; i >= 1; i--) {
+				
+				let nextX = (i) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X - LL_NEXT_WIDTH;
+				let nextY = Math.floor((i) / LL_ELEMS_PER_LINE)* LL_LINE_SPACING + LL_START_Y;
+				this.cmd("Move", this.cqllData[i], nextX - LL_ELEM_SPACING, nextY);
+				this.cmd("Move", this.cqllNext[i], nextX - LL_ELEM_WIDTH - 35, nextY);
+				this.cmd("Move", this.dataAddress[i], nextX - LL_ELEM_SPACING , nextY + 25);
+			}
+		}
 }
 
 CircularQLL.prototype.disableBtn = function() {
@@ -203,7 +212,7 @@ CircularQLL.prototype.enqueue = function(elemToPush) {
 		address[this.rear] = randomAdd;
 	}
 	
-	console.log("Address : " + address);
+	
 	
 	this.cmd("CreateLabel", this.dataAddress[this.rear], randomAdd, TEMP_WIDTH - 10 , TEMP_HEIGHT + CQLL_NEXT_POS_Y);
 	this.cmd("Step");
@@ -227,7 +236,7 @@ CircularQLL.prototype.enqueue = function(elemToPush) {
 		var nextX = (this.rear - 1) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X;
 		var nextY = Math.floor((this.rear - 1) / LL_ELEMS_PER_LINE) * LL_LINE_SPACING + LL_START_Y;
 		this.cmd("Move", this.tempLabel, nextX + 12, nextY - 20);
-		this.resetLinkedListPositions();
+		this.resetLinkedListPositions(true);
 		this.cmd("Step");
 	} else {
 		this.cmd("SetText", this.cqllNext[this.rear - 1], "");
@@ -253,21 +262,9 @@ CircularQLL.prototype.enqueue = function(elemToPush) {
 		this.cmd("Step");
 		this.rearAddressChange();
 		this.rear = this.rear + 1;
-		this.resetLinkedListPositions();
+		this.resetLinkedListPositions(true);
 		this.cmd("Step");
-/*
-		var nextX = (this.rear - 1 ) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X - LL_NEXT_WIDTH;
-		var nextY = Math.floor((this.rear - 1) / LL_ELEMS_PER_LINE) * LL_LINE_SPACING + LL_START_Y;
-		
-		this.cmd("CreateLabel", this.point5, "", 10 , nextY);
-		this.cmd("CreateLabel", this.point6, "", 35, nextY);
-		this.cmd("DrawLine", this.point1, nextX + LL_ELEM_WIDTH - 5 , nextY, nextX + LL_ELEM_WIDTH * 1.3, nextY);
-		this.cmd("DrawLine", this.point2, nextX + LL_ELEM_WIDTH * 1.3 , nextY, nextX + LL_ELEM_WIDTH * 1.3 , nextY - LL_ELEM_HEIGHT);
-		this.cmd("DrawLine", this.point3, nextX + LL_ELEM_WIDTH * 1.3 , nextY - LL_ELEM_HEIGHT, 10, nextY - LL_ELEM_HEIGHT);
-		this.cmd("DrawLine", this.point4, 10, nextY - LL_ELEM_HEIGHT, 10, nextY);
-		this.cmd("Connect", this.point5, this.point6);*/
 	}
-	
 	var nextX = (this.rear - 1) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X;
 	var nextY = Math.floor((this.rear - 1) / LL_ELEMS_PER_LINE) * LL_LINE_SPACING + LL_START_Y;
 	this.cmd("CreateLabel", this.dummyTmpAdd, firstNodeAdd, nextX, nextY);
@@ -277,14 +274,11 @@ CircularQLL.prototype.enqueue = function(elemToPush) {
 	this.cmd("SetText", this.cqllNext[this.rear - 1], firstNodeAdd);
 	this.cmd("Delete", this.dummyTmpAdd);
 	this.cmd("Step");
-	
-	
-	//pending 
+
 	var nextX = (this.rear - 1 ) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X - LL_NEXT_WIDTH;
 	var nextY = Math.floor((this.rear - 1) / LL_ELEMS_PER_LINE) * LL_LINE_SPACING + LL_START_Y;
 	this.cmd("CreateLabel", this.point5, "", 10 , 200);
 	this.cmd("CreateLabel", this.point6, "", 35, 200);
-
 
 	this.cmd("DrawLine", this.point1, nextX + LL_ELEM_WIDTH - 5 , nextY, nextX + LL_ELEM_WIDTH * 1.3, nextY);
 	this.cmd("DrawLine", this.point2, nextX + LL_ELEM_WIDTH * 1.3 , nextY, nextX + LL_ELEM_WIDTH * 1.3 , nextY - LL_ELEM_HEIGHT);
@@ -292,19 +286,19 @@ CircularQLL.prototype.enqueue = function(elemToPush) {
 	this.cmd("DrawLine", this.point4, 10, nextY - LL_ELEM_HEIGHT, 10, 200);
 	this.cmd("Connect", this.point5, this.point6);
 	
-	
 	$('#enqueueText').val("");
 	this.cmd("Delete", this.displayText);
 	this.cmd("Delete", this.displayVal);
 	this.cmd("Delete", this.tempLabel);
 	this.cmd("Step");
+	
+	
 	return this.commands;
 }
 
 CircularQLL.prototype.rearAddressChange = function() {
 	this.cmd("SetPosition", this.rearId, TEMP_WIDTH - 10, TEMP_HEIGHT + CQLL_NEXT_POS_Y);
 	this.cmd("SetText", this.rearId, randomAdd);
-	//this.cmd("Step");
 	this.cmd("Move", this.rearId, REAR_POS_X, REAR_POS_Y);
 	this.cmd("Step");
 	if (this.rearId != 0) {
@@ -319,7 +313,6 @@ CircularQLL.prototype.dequeue = function(elemToPop) {
 	this.deQueueRectID = this.nextIndex++;
 	this.deQueueId = this.nextIndex++;
 	
-	if (this.rear > 0) {
 		this.cmd("CreateLabel", this.deQueueTemp, "temp : ", 30, FRONT_LABLE_Y);
 		this.cmd("CreateRectangle", this.deQueueRectID, "", FRONT_WIDTH, FRONT_HEIGHT, 80, FRONT_POS_Y);
 		this.cmd("CreateLabel", this.deQueueId, "NULL", 80, FRONT_POS_Y);
@@ -336,16 +329,125 @@ CircularQLL.prototype.dequeue = function(elemToPop) {
 		this.cmd("Delete", this.dummyTmpAdd);
 		
 		
-		if (address[0] == randomAdd) {
-			console.log("true");
+		
+		if (address.length == 1) {
+			
+			this.cmd("SetText", this.frontId, "NULL");
+			this.cmd("Disconnect", this.frontRectID, this.cqllData[0]);
+			this.cmd("SetText", this.rearId, "NULL");
+			this.cmd("Disconnect", this.rearRectID, this.cqllData[0]);
+			this.cmd("Step");
+			
+			var nextX = (this.rear - 1) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X;
+			this.cmd("Move", this.cqllData[0], nextX, CQLL_ELE_POS_Y);
+			this.cmd("Move", this.cqllNext[0], nextX + LL_ELEM_WIDTH - 25, CQLL_NEXT_POS_Y);
+			this.cmd("Move", this.dataAddress[0], nextX + 25, nextX);
+			
+			this.cmd("Delete", this.point1);
+			this.cmd("Delete", this.point2);
+			this.cmd("Delete", this.point3);
+			this.cmd("Delete", this.point4);
+			this.cmd("Delete", this.point5);
+			this.cmd("Delete", this.point6);
+			this.cmd("Step");
+			this.cmd("Disconnect", this.point5, this.point6);
+			this.cmd("Disconnect", this.deQueueRectID, this.cqllData[0]);
+			this.cmd("Delete", this.cqllData[0]);
+			this.cmd("Delete", this.cqllNext[0]);
+			this.cmd("Delete", this.dataAddress[0]);
+			this.cmd("Delete", this.deQueueTemp);
+			this.cmd("Delete", this.deQueueRectID);
+			this.cmd("Delete", this.deQueueId);
+			
+			this.rear = this.rear - 1;
+			address.pop();
 		} else {
-			console.log("False");
+			
+			this.cmd("Disconnect", this.frontRectID, this.cqllData[0]);
+			
+			this.cmd("CreateLabel", this.dummyTmpAdd, address[1], FRONT_POS_X, FRONT_POS_Y);
+			this.cmd("SetPosition", this.dummyTmpAdd, 110, nextY);
+			this.cmd("Move", this.dummyTmpAdd, FRONT_POS_X, FRONT_POS_Y);
+			this.cmd("Step");
+			this.cmd("SetText", this.frontId, address[1]);
+			this.cmd("Connect", this.frontRectID, this.cqllData[1]);
+			this.cmd("Step");
+			this.cmd("Delete", this.dummyTmpAdd);
+			this.cmd("Connect", this.frontRectID, this.cqllData[1]);
+			
+			
+			this.cmd("CreateLabel", this.dummyTmpAdd, address[1], nextX, nextY);
+			this.cmd("SetPosition", this.dummyTmpAdd, FRONT_POS_X, FRONT_POS_Y);
+			this.cmd("Move", this.dummyTmpAdd, nextX, nextY);
+			this.cmd("Step");
+			this.cmd("SetText", this.cqllNext[this.rear - 1], address[1]);
+			this.cmd("Delete", this.dummyTmpAdd);
+			
+			this.cmd("Step");
+			this.cmd("Disconnect", this.cqllNext[0], this.cqllData[1]);
+			
+			var nextX = (this.rear - 1) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X;
+			this.cmd("Move", this.cqllData[0], 60, CQLL_ELE_POS_Y);
+			this.cmd("Move", this.cqllNext[0], 100, CQLL_NEXT_POS_Y);
+			this.cmd("Move", this.dataAddress[0], 100, CQLL_ELE_POS_Y + 25);
+			
+			
+			this.cmd("Delete", this.point1);
+			this.cmd("Delete", this.point2);
+			this.cmd("Delete", this.point3);
+			this.cmd("Delete", this.point4);
+			this.cmd("Delete", this.point5);
+			this.cmd("Delete", this.point6);
+			this.cmd("Step");
+			this.cmd("Disconnect", this.point5, this.point6);
+			
+			
+			
+			this.cmd("Delete", this.cqllData[0]);
+			this.cmd("Delete", this.cqllNext[0]);
+			this.cmd("Delete", this.dataAddress[0]);
+			this.cmd("Delete", this.deQueueTemp);
+			this.cmd("Delete", this.deQueueRectID);
+			this.cmd("Delete", this.deQueueId);
+			
+			this.resetLinkedListPositions(false);
+			
+			this.cmd("Step");
+			this.rear = this.rear - 1;
+			
+			this.cqllData.splice(0, 1);
+			this.cqllNext.splice(0, 1);
+			this.dataAddress.splice(0, 1);
+			
+			this.llNext.splice(0, 1);
+			this.llData.splice(0, 1);
+			
+			this.cqllData.push(this.nextIndex++);
+			this.cqllNext.push(this.nextIndex++);
+			this.dataAddress.push(this.nextIndex++);
+			this.llNext.push(this.nextIndex++);
+			this.llData.push(this.nextIndex++);
+			
+			var nextX = (this.rear - 1 ) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X - LL_NEXT_WIDTH;
+			var nextY = Math.floor((this.rear - 1) / LL_ELEMS_PER_LINE) * LL_LINE_SPACING + LL_START_Y;
+			this.cmd("CreateLabel", this.point5, "", 10 , 200);
+			this.cmd("CreateLabel", this.point6, "", 35, 200);
+
+			this.cmd("DrawLine", this.point1, nextX + LL_ELEM_WIDTH - 5 , nextY, nextX + LL_ELEM_WIDTH * 1.3, nextY);
+			this.cmd("DrawLine", this.point2, nextX + LL_ELEM_WIDTH * 1.3 , nextY, nextX + LL_ELEM_WIDTH * 1.3 , nextY - LL_ELEM_HEIGHT);
+			this.cmd("DrawLine", this.point3, nextX + LL_ELEM_WIDTH * 1.3 , nextY - LL_ELEM_HEIGHT, 10, nextY - LL_ELEM_HEIGHT);
+			this.cmd("DrawLine", this.point4, 10, nextY - LL_ELEM_HEIGHT, 10, 200);
+			this.cmd("Connect", this.point5, this.point6);
+			
+			//this.cqllData.pop();
+			//this.cqllNext.pop();
+			//this.dataAddress.pop();
+			address.pop()
+			//this.llData.pop()
+			//this.llNext.pop();
 		}
 		
-		
-	}
-	
-	return this.commands;
+		return this.commands;
 }
 
 CircularQLL.prototype.display = function() {

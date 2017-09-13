@@ -19,7 +19,7 @@
 <script type="text/javascript" src="/js/gs/TweenMax.min.js"></script>
 <script type="text/javascript" src="/js/jquery.scrollTo.js"></script>
 <script type="text/javascript" src="js/stay.min.js"></script>
-<!-- <script type="text/javascript" src="js/queue-using-linked-list.js"></script> -->
+<script type="text/javascript" src="js/queue-using-linked-list.js"></script>
 
 
 

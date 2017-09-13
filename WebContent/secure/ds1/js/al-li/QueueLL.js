@@ -62,7 +62,7 @@ QueueLL.prototype.addControls = function() {
 	this.enqueueField = document.getElementById("enqueueText");
 	this.enqueueField.onkeydown = this.returnSubmit(this.enqueueField, this.enqueueCallback.bind(this), 4);
 	this.enqueueButton = document.getElementById("enqueueBtn");
-	this.enqueueButton.onclick = this.enqueueCallback.bind(this);
+	this.enqueueButton.onclick = this.enqueueCallback.bind(this, this.enqueueField);
 	this.controls.push(this.enqueueField);
 	this.controls.push(this.enqueueButton);
 

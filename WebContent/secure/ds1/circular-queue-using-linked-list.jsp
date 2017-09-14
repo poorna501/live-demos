@@ -18,7 +18,7 @@
 <script type="text/javascript" src="/js/typewriting.min.js"></script>
 <script type="text/javascript" src="/js/gs/TweenMax.min.js"></script>
 <script type="text/javascript" src="/js/jquery.scrollTo.js"></script>
-<script type="text/javascript" src="/secure/ds1/js/circular-queue-linked-list.js"></script>
+<!-- <script type="text/javascript" src="/secure/ds1/js/circular-queue-linked-list.js"></script> -->
 
 
 <!-- Javascript for the actual visualization code -->
@@ -35,8 +35,10 @@
 <script type="text/javascript" src="js/an-li/object-manager.js"></script>
 <script type="text/javascript" src="js/an-li/animation-main.js"></script>
 <script type="text/javascript" src="js/al-li/algorithm.js"></script>
+<script type="text/javascript" src="js/al-li/CQLL-Dummy.js"></script>
 
-<script type="text/javascript" src="js/al-li/circular-queueLL.js"></script>
+
+<!-- <script type="text/javascript" src="js/al-li/circular-queueLL.js"></script> -->
 
 <style type="text/css">
 .ct-demo-heading {
@@ -153,9 +155,8 @@ r {
 
 <script type="text/javascript">
 	$(document).ready(function() { 
-		//$('.hide').removeClass('hide');
-		//$('.opacity00').removeClass('opacity00');
-		queueLinkedListReady();
+		$('#canvas').removeClass('opacity00');
+		//queueLinkedListReady();
 	});
 </script>
 </head>
@@ -211,18 +212,19 @@ void enqueue(<span id='enqueueParameter'>int element</span>) {
 						style="margin-top: 10px;">
 void dequeue() {
 	<span id='dequeueTempDef'>Q temp = NULL;</span>
-	if(<span id='dequeuIfCndtn'>front == NULL</span>) {
+	<span id="dequeueBlk1"><span id='dequeueIf'>if(<span id='dequeuIfCndtn'>front == NULL</span>) {</span>
 		<span id='dequeueIfPrintf'>printf("Queue is underflow.");</span>
 	} else {
 		<span id='dequeueTempInit'>temp = front;</span>
-		<span id='dequeueElseIfElseBlk'>if (<span id='dequeuElseIfCndtn'>front == rear</span>) {
+		<span id='dequeueElseIfElseBlk'><span id='dequeueElseIf'>if (<span id='dequeuElseIfCndtn'>front == rear</span>) {</span>
 			<span id='dequeuRearFrontInit'>front = rear = NULL;</span>
 		} else {
 			<span id='dequeueFrontInit'>front = front -> next;</span>
 		}</span>
-		<span id='dequeueElsePrintfBlk'><span id='dequeueElsePrintf'>printf("Deleted value = %d.", temp -> next);</span>
+		<span id='dequeueElsePrintfBlk'><span id='dequeueElsePrintf'>printf("Deleted value = "
+		"%d.", temp -> next);</span>
 		<span id='dequeueRemoveTemp'>free(temp);</span></span>
-	}
+	}</span>
 }
 					</pre>
 				</div>			

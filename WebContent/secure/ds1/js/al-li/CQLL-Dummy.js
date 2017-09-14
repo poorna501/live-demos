@@ -86,6 +86,7 @@ CircularQLL.prototype.Controls = function() {
 }
 
 CircularQLL.prototype.setUp = function() {
+	
 	this.point1 = this.nextIndex++;
 	this.point2 = this.nextIndex++;
 	this.point3 = this.nextIndex++;
@@ -181,6 +182,8 @@ CircularQLL.prototype.displayCallBack = function() {
 }
 
 CircularQLL.prototype.enqueue = function(elemToPush) {
+	console.log("EnQuee 1234");
+	
 	this.commands = new Array();
 	
 	this.llData = new Array(SIZE);
@@ -211,7 +214,6 @@ CircularQLL.prototype.enqueue = function(elemToPush) {
 		randomAdd = getRandomInt(1000, 5000);
 		address[this.rear] = randomAdd;
 	}
-	
 	
 	
 	this.cmd("CreateLabel", this.dataAddress[this.rear], randomAdd, TEMP_WIDTH - 10 , TEMP_HEIGHT + CQLL_NEXT_POS_Y);
@@ -312,6 +314,7 @@ CircularQLL.prototype.dequeue = function(elemToPop) {
 	this.deQueueTemp = this.nextIndex++;
 	this.deQueueRectID = this.nextIndex++;
 	this.deQueueId = this.nextIndex++;
+	this.dummyTmpAdd = this.nextIndex++;
 	
 		this.cmd("CreateLabel", this.deQueueTemp, "temp : ", 30, FRONT_LABLE_Y);
 		this.cmd("CreateRectangle", this.deQueueRectID, "", FRONT_WIDTH, FRONT_HEIGHT, 80, FRONT_POS_Y);
@@ -401,8 +404,6 @@ CircularQLL.prototype.dequeue = function(elemToPop) {
 			this.cmd("Step");
 			this.cmd("Disconnect", this.point5, this.point6);
 			
-			
-			
 			this.cmd("Delete", this.cqllData[0]);
 			this.cmd("Delete", this.cqllNext[0]);
 			this.cmd("Delete", this.dataAddress[0]);
@@ -451,10 +452,84 @@ CircularQLL.prototype.dequeue = function(elemToPop) {
 }
 
 CircularQLL.prototype.display = function() {
+	console.log("1234567")
 	this.commands = new Array();
+	this.deQueueTemp = this.nextIndex++;
+	this.deQueueRectID = this.nextIndex++;
+	this.deQueueId = this.nextIndex++;
+	this.dummyTmpAdd = this.nextIndex++;
+	this.displayVal = this.nextIndex++;
+	this.displayText = this.nextIndex++;
 	
+	this.cmd("CreateLabel", this.deQueueTemp, "temp : ", 30, FRONT_LABLE_Y);
+	this.cmd("CreateRectangle", this.deQueueRectID, "", FRONT_WIDTH, FRONT_HEIGHT, 80, FRONT_POS_Y);
+	this.cmd("CreateLabel", this.deQueueId, "", 80, FRONT_POS_Y);
+	
+	this.cmd("CreateLabel", this.dummyTmpAdd, (address.length == 0) ? "NULL" : address[0], FRONT_POS_X, FRONT_POS_Y);
+	this.cmd("Move", this.dummyTmpAdd, 80, FRONT_POS_Y);
+	this.cmd("Step");
+	this.cmd("SetText", this.deQueueId, (address.length == 0) ? "NULL" : address[0]);
+	if (address.length != 0 ) { this.cmd("Connect", this.deQueueRectID, this.cqllData[0]);}
+	this.cmd("Step");
+	this.cmd("Delete", this.dummyTmpAdd);
+		
+	if (address.length == 0) {
+			alert("list is empty! ");
+		} else {
+			var disPos = 0;
+			
+			this.cmd("CreateLabel", this.displayText, "Elements in the queue : ", 60, 30);
+			this.displayInfoValue(FRONT_LABLE_X);
+			this.cmd("Step");
+			this.tempNextToTemp(disPos);
+			this.cmd("Step");
+			this.cmd("Delete", this.displayText);
+			this.cmd("Delete", this.displayVal);
+			
+		}
 	return this.commands;
 }
+
+CircularQLL.prototype.displayInfoValue = function(xPos) {
+	this.dummyTmpAdd = this.nextIndex++;
+	
+	this.cmd("CreateLabel", this.displayVal, "", xPos, 30);
+	
+	var nextX = (this.rear - 1) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X;
+	var nextY = Math.floor((this.rear - 1) / LL_ELEMS_PER_LINE) * LL_LINE_SPACING + LL_START_Y;
+	
+	this.cmd("CreateLabel", this.dummyTmpAdd, 11, nextX - (LL_ELEM_WIDTH / 2) - 5, nextY);
+	this.cmd("Move", this.dummyTmpAdd, FRONT_LABLE_X , 30);
+	this.cmd("Step");
+	this.cmd("SetText", this.displayVal, "11");
+	this.cmd("Delete", this.dummyTmpAdd);
+}
+
+CircularQLL.prototype.tempNextToTemp = function(disPos) {
+	var nextX = (this.rear - 1) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X;
+	var nextY = Math.floor((this.rear - 1) / LL_ELEMS_PER_LINE) * LL_LINE_SPACING + LL_START_Y;
+	
+	this.cmd("CreateLabel", this.dummyTmpAdd, address[disPos], nextX , nextY);
+	this.cmd("Move", this.dummyTmpAdd, 80, FRONT_POS_Y);
+	this.cmd("Step");
+	this.cmd("SetText", this.deQueueId, address[disPos]);
+	this.cmd("Delete", this.dummyTmpAdd);
+	this.cmd("Step");
+	
+	if (address[0] != address[address.length - 1]) {
+		this.displayInfoValue(FRONT_LABLE_X + (disPos + 30));
+		this.cmd("Step");
+		this.tempNextToTemp(++disPos);
+	} else {
+		alert("the condition is false");
+//		this.tempNextToTemp(++disPos);
+		
+	}
+	
+	
+}
+
+
 
 function getRandomInt(min, max) {
 	min = Math.ceil(min);

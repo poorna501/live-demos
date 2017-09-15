@@ -284,7 +284,7 @@ function initIntroJS() {
 			$(".background-color-yellow").removeClass("background-color-yellow");
 			$(".introjs-helperLayer").one("transitionend", function() {
 				arrow("#displayElsePrintf", "#displayWhile", function() {
-					var text = "This <y>while-loop</y> is repeated untill the <y>temp</y> value is not <y>NULL</y>.";
+					var text = "This <y>do while-loop</y> is repeated untill the <y>temp</y> value is not <y>first</y>.";
 					typing(".introjs-tooltiptext", text, function() {
 						$(".introjs-tooltiptext").append("<ul><li></li></ul>");
 						var text = "It prints the <y>info</y> value of each <y>member</y>.";
@@ -333,7 +333,7 @@ function initIntroJS() {
 			break;
 			
 		case "outputDiv":
-			$("#outputDiv").removeClass("opacity00");
+			$("#outputDiv, #ele").removeClass("opacity00");
 			$(".introjs-helperLayer").one("transitionend", function() {
 				$(".output-console-body").scrollTo($("#output > div:last-child()"), 500, function() {
 					$("#output > div:last-child()").removeClass("opacity00").hide().fadeIn(1000, function() {
@@ -551,7 +551,7 @@ function displayElsePart() {
 		typing($(".introjs-tooltiptext ul li:last"), text, function() {
 			arrow("#displayFrontToTemp", "#displayElsePrintf", function() {
 				$("#displayElsePrintf").addClass("background-color-yellow");
-				$("#output").append("<div class='opacity00' style='display: inline-block;'>Elements are : </div>");
+				$("#output").append("<div class='opacity00' style='display: inline-block;' id='ele'>Elements are : </div>");
 				getIntrojsStep("#animationDiv", "", "", "hide");
 				$(".introjs-nextbutton").removeClass("introjs-disabled").show();
 			});

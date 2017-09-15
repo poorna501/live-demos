@@ -18,7 +18,7 @@
 <script type="text/javascript" src="/js/typewriting.min.js"></script>
 <script type="text/javascript" src="/js/gs/TweenMax.min.js"></script>
 <script type="text/javascript" src="/js/jquery.scrollTo.js"></script>
-<!-- <script type="text/javascript" src="/secure/ds1/js/circular-queue-linked-list.js"></script> -->
+<script type="text/javascript" src="/secure/ds1/js/circular-queue-linked-list.js"></script>
 
 
 <!-- Javascript for the actual visualization code -->
@@ -35,10 +35,10 @@
 <script type="text/javascript" src="js/an-li/object-manager.js"></script>
 <script type="text/javascript" src="js/an-li/animation-main.js"></script>
 <script type="text/javascript" src="js/al-li/algorithm.js"></script>
-<script type="text/javascript" src="js/al-li/CQLL-Dummy.js"></script>
+<!-- <script type="text/javascript" src="js/al-li/CQLL-Dummy.js"></script> -->
 
 
-<!-- <script type="text/javascript" src="js/al-li/circular-queueLL.js"></script> -->
+<script type="text/javascript" src="js/al-li/circular-queueLL.js"></script>
 
 <style type="text/css">
 .ct-demo-heading {
@@ -155,8 +155,8 @@ r {
 
 <script type="text/javascript">
 	$(document).ready(function() { 
-		$('#canvas').removeClass('opacity00');
-		//queueLinkedListReady();
+		//$('#canvas').removeClass('opacity00');
+		queueLinkedListReady();
 	});
 </script>
 </head>
@@ -227,6 +227,22 @@ void dequeue() {
 	}</span>
 }
 					</pre>
+					<pre class='creampretab4 hide' id='displayFun' style="margin-top: 10px;">
+void display() {
+	<span id='displayBlk1'><span id='displayIf'>if(<span id='displayIfCndtn'>first == NULL</span>) {</span>
+		<span id='displayIfPrintf'>printf("Queue is empty.");</span> 
+	} else {
+		<span id='displayFrontToTemp'>Q temp = front;</span>
+		<span id='displayElsePrintf'>printf("Elements are : ");</span>
+		<span id='displayBlk2'>do {
+			<span id='displayWhilePrintf'>printf("%d ", temp -&gt; info);</span>
+			<span id='displayTempNext'>temp = temp -&gt; next;</span>
+			<span id='displayWhile'>} while(<span id='displayWhileCndtn'>temp != first</span>); </span></span>
+	}</span>
+}
+</pre>
+					
+					
 				</div>			
 			
 			<div id="outputDiv" class='opacity00 col-xs-12 padding0 margin-top-20'>

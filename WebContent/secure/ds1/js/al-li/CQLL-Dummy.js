@@ -458,8 +458,12 @@ CircularQLL.prototype.display = function() {
 	this.deQueueRectID = this.nextIndex++;
 	this.deQueueId = this.nextIndex++;
 	this.dummyTmpAdd = this.nextIndex++;
-	this.displayVal = this.nextIndex++;
 	this.displayText = this.nextIndex++;
+	this.displayVal = new Array(SIZE);
+	
+	for (let i = 0 ; i <= this.rear; i++) {
+		this.displayVal[i] = this.nextIndex++;
+	}
 	
 	this.cmd("CreateLabel", this.deQueueTemp, "temp : ", 30, FRONT_LABLE_Y);
 	this.cmd("CreateRectangle", this.deQueueRectID, "", FRONT_WIDTH, FRONT_HEIGHT, 80, FRONT_POS_Y);
@@ -476,57 +480,77 @@ CircularQLL.prototype.display = function() {
 	if (address.length == 0) {
 			alert("list is empty! ");
 		} else {
-			var disPos = 0;
-			
-			this.cmd("CreateLabel", this.displayText, "Elements in the queue : ", 60, 30);
-			this.displayInfoValue(FRONT_LABLE_X);
-			this.cmd("Step");
-			this.tempNextToTemp(disPos);
-			this.cmd("Step");
-			this.cmd("Delete", this.displayText);
-			this.cmd("Delete", this.displayVal);
-			
+			this.displayNode();
 		}
 	return this.commands;
 }
 
-CircularQLL.prototype.displayInfoValue = function(xPos) {
+CircularQLL.prototype.displayNode = function() {
+	var disPos = 0;
+	this.cmd("CreateLabel", this.displayText, "Elements in the queue : ", 60, 30);
+	this.displayInfoValue(FRONT_LABLE_X, disPos);
+	this.cmd("Step");
+	this.tempNextToTemp(disPos);
+}
+
+
+CircularQLL.prototype.displayInfoValue = function(xPos, disPos) {
 	this.dummyTmpAdd = this.nextIndex++;
 	
-	this.cmd("CreateLabel", this.displayVal, "", xPos, 30);
+	this.cmd("CreateLabel", this.displayVal[disPos], "", xPos, 30);
 	
-	var nextX = (this.rear - 1) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X;
-	var nextY = Math.floor((this.rear - 1) / LL_ELEMS_PER_LINE) * LL_LINE_SPACING + LL_START_Y;
+	var nextX = (disPos) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X;
+	var nextY = Math.floor((disPos) / LL_ELEMS_PER_LINE) * LL_LINE_SPACING + LL_START_Y;
 	
 	this.cmd("CreateLabel", this.dummyTmpAdd, 11, nextX - (LL_ELEM_WIDTH / 2) - 5, nextY);
-	this.cmd("Move", this.dummyTmpAdd, FRONT_LABLE_X , 30);
+	this.cmd("Move", this.dummyTmpAdd, xPos , 30);
 	this.cmd("Step");
-	this.cmd("SetText", this.displayVal, "11");
+	this.cmd("SetText", this.displayVal[disPos], "11");
+	
 	this.cmd("Delete", this.dummyTmpAdd);
 }
 
 CircularQLL.prototype.tempNextToTemp = function(disPos) {
-	var nextX = (this.rear - 1) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X;
-	var nextY = Math.floor((this.rear - 1) / LL_ELEMS_PER_LINE) * LL_LINE_SPACING + LL_START_Y;
+	var nextX = (disPos) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X;
+	var nextY = Math.floor((disPos) / LL_ELEMS_PER_LINE) * LL_LINE_SPACING + LL_START_Y;
 	
-	this.cmd("CreateLabel", this.dummyTmpAdd, address[disPos], nextX , nextY);
-	this.cmd("Move", this.dummyTmpAdd, 80, FRONT_POS_Y);
-	this.cmd("Step");
-	this.cmd("SetText", this.deQueueId, address[disPos]);
-	this.cmd("Delete", this.dummyTmpAdd);
-	this.cmd("Step");
-	
-	if (address[0] != address[address.length - 1]) {
-		this.displayInfoValue(FRONT_LABLE_X + (disPos + 30));
+	if (disPos != this.rear - 1) {
+		this.cmd("CreateLabel", this.dummyTmpAdd, address[disPos], nextX , nextY);
+		this.cmd("Move", this.dummyTmpAdd, 80, FRONT_POS_Y);
 		this.cmd("Step");
-		this.tempNextToTemp(++disPos);
+		this.cmd("SetText", this.deQueueId, address[disPos + 1]);
+		this.cmd("Disconnect", this.deQueueRectID, this.cqllData[disPos]);
+		this.cmd("Connect", this.deQueueRectID, this.cqllData[disPos + 1]);
+		
 	} else {
-		alert("the condition is false");
-//		this.tempNextToTemp(++disPos);
+		this.cmd("CreateLabel", this.dummyTmpAdd, address[0], nextX , nextY);
+		this.cmd("Move", this.dummyTmpAdd, 80, FRONT_POS_Y);
+		this.cmd("Step");
+		this.cmd("SetText", this.deQueueId, address[0]);
+		this.cmd("Disconnect", this.deQueueRectID, this.cqllData[0]);
+		this.cmd("Disconnect", this.deQueueRectID, this.cqllData[disPos]);
+		this.cmd("Connect", this.deQueueRectID, this.cqllData[0]);
 		
 	}
-	
-	
+	disPos++;
+	this.cmd("Delete", this.dummyTmpAdd);
+	this.cmd("Step");
+	if (disPos != this.rear) {
+		this.displayInfoValue(FRONT_LABLE_X + (disPos * 30), disPos);
+		this.cmd("Step");
+		this.tempNextToTemp(disPos);
+	} else {
+		this.cmd("Step");
+		this.cmd("Step");
+		for (let i = 0 ; i <= this.rear - 1; i++) {
+			this.cmd("Delete", this.displayVal[i]);
+		}
+		this.cmd("Delete", this.displayText);
+		this.cmd("Delete", this.deQueueTemp);
+		this.cmd("Delete", this.deQueueRectID);
+		this.cmd("Delete", this.deQueueId);
+		
+	}
 }
 
 

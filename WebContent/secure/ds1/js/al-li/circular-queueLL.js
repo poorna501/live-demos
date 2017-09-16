@@ -85,6 +85,10 @@ CircularQLL.prototype.Controls = function() {
 	this.dispalyButton = document.getElementById('displayBtn');
 	this.dispalyButton.onclick = this.displayCallBack.bind(this);
 	this.ButtonArr.push(this.displayBtn);
+	
+	this.clearButton = document.getElementById("clearBtn");
+	this.clearButton.onclick = this.clearCallback.bind(this);
+	this.ButtonArr.push(this.clearButton);
 }
 
 CircularQLL.prototype.disableBtn = function() {
@@ -119,13 +123,26 @@ CircularQLL.prototype.enqueueCallBack = function(event) {
 }
 
 CircularQLL.prototype.dequeueCallBack = function() {
+	if($(".btn").is(":disabled")) {
+		return;
+	}
 	this.implementAction(this.dequeue.bind(this), "");
-	console.log("DeQuee");
 }
 
 CircularQLL.prototype.displayCallBack = function() {
+	if($(".btn").is(":disabled")) {
+		return;
+	}
 	this.implementAction(this.display.bind(this), "");
-	console.log("Display");
+}
+
+CircularQLL.prototype.clearCallback = function() {
+	if($(".btn").is(":disabled")) {
+		return;
+	}
+	this.implementAction(this.clearAll.bind(this));
+	
+	
 }
 
 CircularQLL.prototype.setUp = function() {
@@ -140,7 +157,7 @@ CircularQLL.prototype.setUp = function() {
 	this.cqllNext = new Array(SIZE);
 	this.dataAddress = new Array(SIZE);
 	this.address = new Array(SIZE);
-	this.nodeData = new Array(SIZE);
+	
 	
 	for (var i = 0; i < SIZE; i++) {
 		this.cqllData[i] = this.nextIndex++;
@@ -170,7 +187,6 @@ CircularQLL.prototype.setUp = function() {
 
 CircularQLL.prototype.enqueue = function(elemToPush) {
 	this.commands = new Array();
-	this.nodeData[this.rear] = elemToPush;
 	
 	$('#mainFun').removeClass("hide");
 	$("#mainCalls *").removeAttr("id");
@@ -180,6 +196,7 @@ CircularQLL.prototype.enqueue = function(elemToPush) {
 	this.introNextStep("#lastCall", "right", "hide");
 	$("#enqueueText").attr("disabled", true);
 	this.cmd("Step");
+	$("#dequeueFun, #displayFun").addClass('hide');
 	this.introNextStep("#enqueueFun", "right", "");
 	
 	this.llData = new Array(SIZE);
@@ -291,7 +308,7 @@ CircularQLL.prototype.dequeue = function(elemToPop) {//pending dequee
 	this.introNextStep("#lastCall", "right", "hide");
 	$("#enqueueText").attr("disabled", true);
 	this.cmd("Step");
-	$("#enqueueFun").addClass('hide');
+	$("#enqueueFun, #displayFun").addClass('hide');
 	$("#dequeueFun").removeClass('hide');
 	this.introNextStep("#dequeueFun", "right", "");
 	
@@ -353,7 +370,6 @@ CircularQLL.prototype.dequeue = function(elemToPop) {//pending dequee
 		this.cmd("SetText", this.cqllNext[this.rear - 1], address[1]);
 		this.cmd("Delete", this.dummyTmpAdd);
 		this.cmd("Step");
-		
 		this.introNextStep("#dequeueElsePrintfBlk", "right", "");
 		this.cmd("Step");
 		
@@ -384,7 +400,7 @@ CircularQLL.prototype.display = function() {
 	this.introNextStep("#lastCall", "right", "hide");
 	$("#enqueueText").attr("disabled", true);
 	this.cmd("Step");
-	$("#dequeueFun").addClass('hide');
+	$("#enqueueFun, #dequeueFun").addClass('hide');
 	$("#displayFun").removeClass('hide');
 	this.introNextStep("#displayFun", "right", "");
 	
@@ -417,8 +433,41 @@ CircularQLL.prototype.display = function() {
 		this.cmd("Delete", this.dummyTmpAdd);
 		this.displayNode();
 	}
-	
 	return this.commands;
+}
+
+CircularQLL.prototype.clearAll = function() {
+	this.commands = new Array();
+	$("#enqueueText").attr("disabled", true);
+	
+	this.introNextStep("#animationDiv", "left", "");
+	this.cmd("SetText", this.frontId, "NULL");
+	this.cmd("SetText", this.rearId, "NULL");
+	
+	this.deletePoints();
+	console.log(this.rear);
+	if (this.rear != 0) {
+		for (var i = 0; i < this.rear; i++) {
+			this.cmd("Delete", this.cqllData[i]);
+			this.cmd("Delete", this.cqllNext[i]);
+			this.cmd("Delete", this.dataAddress[i]);
+		}
+	}
+	
+	address = []
+	queue = [];
+	rearVal = 0;
+	frontVal = 0;
+	
+	this.rear = 0;
+	this.cmd("Step");
+	
+	this.cmd("Step");
+	this.cmd("Step");
+	this.introNextStep("#btnsDiv", "left", "");
+	//this.cmd("SetNextIntroStep", "#btnsDiv", "", "left", "");
+	return this.commands;
+	
 }
 
 CircularQLL.prototype.displayNode = function() {
@@ -528,12 +577,12 @@ CircularQLL.prototype.resetLinkedListPositions = function(flag) {
 		this.cmd("Move", this.cqllNext[this.rear - 1], nextX + LL_ELEM_WIDTH - 25, nextY);
 		this.cmd("Move", this.dataAddress[this.rear - 1], nextX + 25, nextY + 25);
 	} else {
-		for (let i = this.rear - 1; i >= 1; i--) {
-			let nextX = (i) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X - LL_NEXT_WIDTH;
-			let nextY = Math.floor((i) / LL_ELEMS_PER_LINE)* LL_LINE_SPACING + LL_START_Y;
-			this.cmd("Move", this.cqllData[i], nextX - LL_ELEM_SPACING, nextY);
-			this.cmd("Move", this.cqllNext[i], nextX - LL_ELEM_WIDTH - 35, nextY);
-			this.cmd("Move", this.dataAddress[i], nextX - LL_ELEM_SPACING , nextY + 25);
+		for (let i = 1; i < this.rear; i++) {
+			let nextX = (this.rear - 1 - i) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X - LL_NEXT_WIDTH;
+			let nextY = Math.floor((this.rear - 1 - i) / LL_ELEMS_PER_LINE)* LL_LINE_SPACING + LL_START_Y;
+			this.cmd("Move", this.cqllData[this.rear - i], nextX, nextY);
+			this.cmd("Move", this.cqllNext[this.rear - i], nextX + LL_ELEM_WIDTH - 22, nextY);
+			this.cmd("Move", this.dataAddress[this.rear - i], nextX + 10 , nextY + 25);
 		}
 	}
 }
@@ -578,10 +627,10 @@ CircularQLL.prototype.deletePoints = function() {
 	this.cmd("Delete", this.point2);
 	this.cmd("Delete", this.point3);
 	this.cmd("Delete", this.point4);
+	this.cmd("Disconnect", this.point5, this.point6);
 	this.cmd("Delete", this.point5);
 	this.cmd("Delete", this.point6);
 	this.cmd("Step");
-	this.cmd("Disconnect", this.point5, this.point6);
 }
 
 CircularQLL.prototype.deleteLabels = function() {

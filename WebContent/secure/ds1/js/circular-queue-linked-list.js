@@ -1,5 +1,19 @@
+var lang;
 var queueLinkedListReady = function() {
+	lang = getURLParameter("lang");
 	initIntroJS();
+	
+	if (lang == 'cpp') {
+		$('#enqueueElsePrintf').text('cout >> "Successfully inserted.";');
+		$("#dequeueElsePrintf").html('cout >> "Deleted value = "\n\t\t" %d.", temp -> next;);');
+		$('#displayElsePrintf').text('cout >> "Elements are : ";');
+		$('#displayWhilePrintf').html('cout >> temp -&gt; info)');
+		$('#displayIfPrintf').text('cout >> "Queue is empty.";');
+		$('#dequeueIfPrintf').text('cout >> "Queue is underflow.";');
+		$('#enqueueIfPrintf').text('cout >> "Queue is overflow.";');
+		
+	}
+	
 	$("#enqueueText").on("keydown", function(e) {
 		if ($.inArray(e.keyCode, [46, 8, 9, 27]) !== -1 || (e.keyCode >= 37 && e.keyCode <= 39)) {
 			return;
@@ -9,6 +23,18 @@ var queueLinkedListReady = function() {
 		}
 	});
 }
+
+function getURLParameter(sParam) { //choose the language like c or cpp...etc 
+	var sPageURL = window.location.search.substring(1);
+	var sURLVariables = sPageURL.split('&');
+	for (var i = 0; i < sURLVariables.length; i++) {
+		var sParameterName = sURLVariables[i].split('=');
+		if (sParameterName[0] == sParam) {
+			return sParameterName[1];
+		}
+	}
+}
+
 var insertedVal, flag = false; 
 
 function initIntroJS() {
@@ -322,10 +348,6 @@ function initIntroJS() {
 					setTimeout(function() {
 						var text = "Successfully clear the <y>queue</y>.";
 						typing(".introjs-tooltiptext", text, function() {
-							getIntrojsStep("#btnsDiv", "", "left");
-							setTimeout(function() {
-								introjs.nextStep();
-							}, 500);
 						});
 					}, 1000);
 				}

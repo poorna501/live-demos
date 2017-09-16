@@ -155,7 +155,6 @@ r {
 
 <script type="text/javascript">
 	$(document).ready(function() { 
-		//$('#canvas').removeClass('opacity00');
 		queueLinkedListReady();
 	});
 </script>
@@ -257,8 +256,8 @@ void display() {
 				<div class='col-xs-12 padding0 box-border text-center'
 					id='animationDiv'>
 					<div class='col-xs-12 padding0 margin-top-20 text-center'>
-						<div class='col-xs-offset-3 col-xs-6 padding0' id='btnsDiv'>
-							<div class='col-sm-4'>
+						<div class='col-xs-offset-2 col-xs-8 padding0' id='btnsDiv'>
+							<div class='col-sm-3'>
 								<div class='col-sm-12 padding-col0' id='enqueueDiv'>
 									<div class="input-group">
 										<input class="form-control input-sm" id="enqueueText"
@@ -280,11 +279,21 @@ void display() {
 								</div>
 							</div>
 							
-							<div class="col-sm-offset-2 col-sm-2" style='padding: 0;'>
+							<div class="col-sm-offset-1 col-sm-2" style='padding: 0;'>
 								<div class='col-sm-12' id='displayQueueDiv'>
 									<div class="input-group">
 										<span class="input-group-addon input-group-addon-border">
 											<span id="displayBtn" class="btn btn-sm btn-success">Display</span>
+										</span>
+									</div>
+								</div>
+							</div>
+							
+							<div class="col-sm-offset-1 col-sm-2" style='padding: 0;'>
+								<div class='col-sm-12' id='clearQueueDiv'>
+									<div class="input-group">
+										<span class="input-group-addon input-group-addon-border">
+											<span id="clearBtn" class="btn btn-sm btn-success">Clear Queue</span>
 										</span>
 									</div>
 								</div>

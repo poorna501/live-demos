@@ -43,13 +43,28 @@ function initIntroJS() {
 		steps : [{
 			element : "#queueInit",
 			intro : "",
+			position : "right",
+			tooltipClass: "hide"
+		},{
+			element: "#strcutSpan",
+			intro : "",
 			position : "right"
-		}, {
+		},{
+			element: "#typeDefDec",
+			intro : "",
+			position : "right",
+			tooltipClass : "hide",
+		},{
+			element: "#declareFirstAndRearNode",
+			intro : "",
+			position : "right",
+			tooltipClass : "hide",
+		},{
 			element : "#animationDiv",
 			intro : "",
 			position : "left",
 			tooltipClass : "hide",
-		}, {
+		},{
 			element : "#btnsDiv",
 			intro : "",
 			position : "left"
@@ -59,17 +74,44 @@ function initIntroJS() {
 		var elementId = targetElement.id;
 		switch (elementId) {
 		case "queueInit":
-			$(".introjs-nextbutton").hide();
-			var text = "This is the declaration of a new <y>struct</y> type <y>queue</y>.<br><br>"
-				+ "<ul><li><y>info</y> field is used to hold <y>data</y> inside the linked list.</li>"
-				+ "<li><y>next</y> field is used to keep the <y>address of next node</y>.</li>" 
-				+ "<li>Here, we are declaring a variables <y>front</y>, <y>rear</y> to the <y>struct</y> type and " 
-				+ "initializing it to <y>NULL</y>.</li></ul>";
-			typing($(".introjs-tooltiptext"), text, function() {
-				$(".introjs-nextbutton").show();
-			});
+			$(".introjs-nextbutton").addClass("introjs-disabled")
+			setTimeout(function() {
+				introjs.nextStep();
+			},1500);
 			break;
-			
+		case "strcutSpan" :
+			$(".introjs-nextbutton").hide();
+			$(".introjs-helperLayer").one("transitionend", function() {
+				var text = "This is the declaration of a new <y>struct</y> type <y>queue</y>.<br><br>"
+					+ "<ul><li><y>info</y> field is used to hold <y>data</y> inside the linked list.</li>"
+					+ "<li><y>next</y> field is used to keep the <y>address of next node</y>.</li></ul>";
+				typing($(".introjs-tooltiptext"), text, function() {
+					$(".introjs-nextbutton").show();
+				});
+			});
+		break;
+		case 'typeDefDec':
+			$(".introjs-nextbutton").hide();
+			$(".introjs-helperLayer").one("transitionend", function() {
+				$(".introjs-tooltip").removeClass('hide');
+				text = 'The <span class="ct-code-b-yellow">typedef</span> creates a <span class="ct-code-b-yellow">node</span> as a '
+					+ ' new type <span class="ct-code-b-yellow">pointer</span> to <span class="ct-code-b-yellow">struct CircularQueue</span>. '
+				typing(".introjs-tooltiptext", text, function() {
+					$('.introjs-nextbutton').show();
+				});
+			});
+		break;
+		case 'declareFirstAndRearNode':
+			$(".introjs-nextbutton").hide();
+			$(".introjs-helperLayer").one("transitionend", function() {
+				$('.introjs-tooltip').removeClass('hide');
+				text = "Here, we are declaring a variables <y>front</y> and <y>rear</y> to the <y>struct</y> type and "
+						+ "initializing it to <y>NULL</y>.";
+				typing('.introjs-tooltiptext', text, function() {
+					$('.introjs-nextbutton').show();
+				});
+			});
+		break;
 		case "btnsDiv":
 			$('#enqueueText').val("");
 			$("#enqueueText").attr("disabled", false);
@@ -81,7 +123,7 @@ function initIntroJS() {
 			}
 			$("#btnsDiv [disabled]").removeAttr("disabled");
 			$(".introjs-helperLayer").one("transitionend", function() {
-				if (introjs._currentStep == 2) {
+				if (introjs._currentStep == 5) {
 					var text = "Provide a number to be inserted.";
 					typing(".introjs-tooltiptext", text, function() {
 						$("#enqueueText").focus();
@@ -337,7 +379,7 @@ function initIntroJS() {
 			$("#btnsDiv .btn").attr("disabled", "disabled");
 			$(".introjs-helperLayer").one("transitionend", function() {
 				$('#canvas').removeClass('opacity00');
-				if (introjs._currentStep == 1) {
+				if (introjs._currentStep == 4) {
 					setTimeout(function() {
 						introjs.nextStep();
 					}, 800);

@@ -69,7 +69,7 @@
 	background-color: lavender !important;
 	font-size: 10.8px;
 	font-style: inherit;
-	padding: 5px;
+	padding: 3px;
 	overflow-y: auto;
 	white-space: pre;
 	word-spacing: -3px;
@@ -170,13 +170,13 @@ r {
 		
 			<div class='col-xs-3'>
 				<div class='col-xs-12 box-border'>
-					<pre class='creampretab4' id='queueInit' style="margin-top: 10px;">struct queue {
+					<pre class='creampretab4' id='queueInit' style="margin-top: 10px;"><span id="strcutSpan">struct queue {
 	int info;
 	struct queue *next;
-};
+};</span>
 
-typedef struct queue *Q;
-Q front = NULL, rear = NULL;
+<span id="typeDefDec">typedef struct queue *CircularQueue;</span>
+<span id="declareFirstAndRearNode">CircularQueue front = NULL, rear = NULL;</span>
 </pre>
 
 					<pre class='creampretab4 hide' id='mainFun'>

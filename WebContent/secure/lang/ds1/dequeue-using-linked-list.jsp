@@ -162,7 +162,7 @@ r {
 <body onload ='init()' class="VisualizationMainPage">
 	<div id="container">
 		<div class='col-xs-12 text-center' style="margin-top: 20px;">
-			<h1 class='label label-default ct-demo-heading'>Circular Queue using Linked List</h1>
+			<h1 class='label label-default ct-demo-heading'>DeQueue using Linked List</h1>
 			<!-- <span class='btn btn-xs btn-warning' onclick='reloadIntro(true)' style="z-index: 100000000; position: relative;">Reload</span> -->
 		</div>
 

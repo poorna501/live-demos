@@ -19,7 +19,7 @@
 <script type="text/javascript" src="/js/typewriting.min.js"></script>
 <script type="text/javascript" src="/js/gs/TweenMax.min.js"></script>
 <script type="text/javascript" src="/js/jquery.scrollTo.js"></script>
-<!-- <script type="text/javascript" src="js/circular-queue-linked-list.js"></script> -->
+<script type="text/javascript" src="js/dequeue-using-linked-list.js"></script>
 
 
 <!-- Javascript for the actual visualization code -->
@@ -36,9 +36,9 @@
 <script type="text/javascript" src="js/an-li/object-manager.js"></script>
 <script type="text/javascript" src="js/an-li/animation-main.js"></script>
 <script type="text/javascript" src="js/al-li/algorithm.js"></script>
-<script type="text/javascript" src="js/al-li/dequeue-dummy.js"></script>
+<!-- <script type="text/javascript" src="js/al-li/dequeue-dummy.js"></script> -->
 
-<!-- <script type="text/javascript" src="js/al-li/circular-queueLL.js"></script> -->
+<script type="text/javascript" src="js/al-li/dequeueLL.js"></script>
 
 <style type="text/css">
 .ct-demo-heading {
@@ -155,7 +155,7 @@ r {
 
 <script type="text/javascript">
 	$(document).ready(function() { 
-		//queueLinkedListReady();
+		dequeueLinkedListReady();
 	});
 </script>
 </head>
@@ -184,62 +184,86 @@ void main() {<div id='mainCalls'></div>
 }
 </pre>
 
-					<pre class='creampretab4 hide' id='enqueueFun'
-						style="margin-top: 10px;">
-void enqueue(<span id='enqueueParameter'>int element</span>) {
-	<span id='enqueueTempDef'>Q temp = NULL;</span>
+					<pre class='creampretab4 hide function' id='injectFun' style="margin-top: 10px;">
+void inject(<span id='injectParameter'>int element</span>) {
+	<span id='injectTempDef'>Q temp = NULL;</span>
 	<span id='initTemp'>temp = (Q)malloc(sizeof(struct queue));</span>
-	<span id="enqueueBlk1"><span id='enqueueIf'>if(<span id='enqueueFirstIfCndtn'>temp == NULL</span>) {</span>
-		<span id='enqueueIfPrintf'>printf("Queue is overflow.");</span>
+	<span id="injectBlk1"><span id='injectIf'>if(<span id='injectFirstIfCndtn'>temp == NULL</span>) {</span>
+		<span id='injectIfPrintf'>printf("Queue is overflow.");</span>
 	} else {
 		<span id='tempInfoInit'>temp -> info = element;</span>
 		<span id='tempNextInit'>temp -> next = NULL;</span>
 		
-		<span id='enqueueElseIfElseBlk'><span id='enqueueElseIf'>if(<span id='enqueueSecondIfCndtn'>front == NULL</span>) {</span>
-			<span id='enqueueFrontInit'>front = temp;</span>
+		<span id='injectElseIfElseBlk'><span id='injectElseIf'>if(<span id='injectSecondIfCndtn'>front == NULL</span>) {</span>
+			<span id='injectFrontInit'>front = temp;</span>
 		} else {
-			<span id='enqueueRearNextInit'>rear -> next = temp;</span>
+			<span id='injectRearNextInit'>rear -> next = temp;</span>
 		}</span>
-		<span id='queueElsePrintfBlk'><span id='enqueueRearInit'>rear = temp;</span>
-		<span id='enqueueRearNextFirstInit'>rear -> next = front;</span>
-		<span id='enqueueElsePrintf'>printf("Successfully inserted.");</span></span>
+		<span id='injectElsePrintfBlk'><span id='injectRearInit'>rear = temp;</span>
+		<span id='injectElsePrintf'>printf("Successfully inserted.");</span></span>
 	}</span>
 }
 					</pre>
 
-					<pre class='creampretab4 hide' id='dequeueFun'
+					<pre class='creampretab4 hide function' id='popFun'
 						style="margin-top: 10px;">
-void dequeue() {
-	<span id='dequeueTempDef'>Q temp = NULL;</span>
-	<span id="dequeueBlk1"><span id='dequeueIf'>if(<span id='dequeuIfCndtn'>front == NULL</span>) {</span>
-		<span id='dequeueIfPrintf'>printf("Queue is underflow.");</span>
+void pop() {
+	<span id='popTempDef'>Q temp = NULL;</span>
+	<span id="popBlk1"><span id='popIf'>if(<span id='popIfCndtn'>front == NULL</span>) {</span>
+		<span id='popIfPrintf'>printf("Queue is underflow.");</span>
 	} else {
-		<span id='dequeueTempInit'>temp = front;</span>
-		<span id='dequeueElseIfElseBlk'><span id='dequeueElseIf'>if (<span id='dequeuElseIfCndtn'>front == rear</span>) {</span>
-			<span id='dequeuRearFrontInit'>front = rear = NULL;</span>
+		<span id='popTempInit'>temp = front;</span>
+		<span id='popElseIfElseBlk'><span id='popElseIf'>if (<span id='popElseIfCndtn'>front == rear</span>) {</span>
+			<span id='popRearFrontInit'>front = rear = NULL;</span>
 		} else {
-			<span id='dequeueFrontInit'>front = front -> next;</span>
+			<span id='popFrontInit'>front = front -> next;</span>
 		}</span>
-		<span id='dequeueElsePrintfBlk'><span id='dequeueElsePrintf'>printf("Deleted value = "
-		"%d.", temp -> next);</span>
-		<span id='dequeueRemoveTemp'>free(temp);</span></span>
+		<span id='popElsePrintfBlk'><span id='popElsePrintf'>printf("Deleted value = "
+		"%d.", temp -> info);</span>
+		<span id='popRemoveTemp'>free(temp);</span></span>
 	}</span>
 }
 					</pre>
-					<pre class='creampretab4 hide' id='displayFun' style="margin-top: 10px;">
+					
+					<pre class='creampretab4 hide function' id='displayFun' style="margin-top: 10px;">
 void display() {
 	<span id='displayBlk1'><span id='displayIf'>if(<span id='displayIfCndtn'>first == NULL</span>) {</span>
 		<span id='displayIfPrintf'>printf("Queue is empty.");</span> 
 	} else {
 		<span id='displayFrontToTemp'>Q temp = front;</span>
 		<span id='displayElsePrintf'>printf("Elements are : ");</span>
-		<span id='displayBlk2'>do {
+		<span id='displayBlk2'><span id='displayWhile'>while(<span id='displayWhileCndtn'>temp != NULL</span>) { </span>
 			<span id='displayWhilePrintf'>printf("%d ", temp -&gt; info);</span>
 			<span id='displayTempNext'>temp = temp -&gt; next;</span>
-			<span id='displayWhile'>} while(<span id='displayWhileCndtn'>temp != first</span>); </span></span>
+		}</span>
+	}</span>
+}</pre>
+					
+					<pre class='creampretab4 hide function' id='ejectFun'
+						style="margin-top: 10px;">
+void eject() {
+	<span id='ejectTempDef'>Q temp = NULL;</span>
+	<span id="ejectBlk1"><span id='ejectIf'>if(<span id='ejectIfCndtn'>rear == NULL</span>) {</span>
+		<span id='ejectIfPrintf'>printf("Queue is underflow.");</span>
+	} else {
+		<span id='ejectTempInit'>temp = front;</span>
+		<span id='ejectElseIfElseBlk'><span id='ejectElseIf'>if (<span id='ejectElseIfCndtn'>front == rear</span>) {</span>
+			<span id='ejectRearFrontInit'>front = rear = NULL;</span>
+		} else {
+			<span id='ejectBlk2'><span id='ejectWhile'>while(<span id='ejectWhileCndtn'>temp -> next != rear</span>) { </span>
+				<span id='ejectTempNext'>temp = temp -&gt; next;</span>
+			}</span>
+			<span id='enjectrearToTmp'>rear=temp;</span>
+			<span id='enjectTempToRerNxt'>temp = rear -> next;</span>
+	       <span id='enjectRearNxtNull'>rear->next = NULL;</span>
+		}</span>
+		<span id='ejectElsePrintfBlk'><span id='ejectElsePrintf'>printf("Deleted value = "
+		"%d.", temp -> info);</span>
+		<span id='ejectRemoveTemp'>free(temp);</span></span>
 	}</span>
 }
-</pre>
+					</pre>
+					
 					
 					
 				</div>			
@@ -271,10 +295,10 @@ void display() {
 							</div>
 							
 							<div class ='col-xs-2'>
-								<div class='col-xs-10' id='ejectDiv'>
+								<div class='col-xs-10' id='popDiv'>
 									<div class="input-group">
 										<span class="input-group-addon input-group-addon-border">
-											<span id="ejectBtn" class="btn btn-sm btn-success">Eject</span>
+											<span id="popBtn" class="btn btn-sm btn-success">Pop</span>
 										</span>
 									</div>
 								</div>
@@ -293,10 +317,10 @@ void display() {
 							</div>
 							
 							<div class ='col-xs-2'>
-								<div class='col-xs-10' id='popDiv'>
+								<div class='col-xs-10' id='ejectDiv'>
 									<div class="input-group">
 										<span class="input-group-addon input-group-addon-border">
-											<span id="popBtn" class="btn btn-sm btn-success">Pop</span>
+											<span id="ejectBtn" class="btn btn-sm btn-success">Eject</span>
 										</span>
 									</div>
 								</div>
@@ -325,7 +349,7 @@ void display() {
 						</div>
 
 					</div>
-					<canvas id="canvas" width="800" height="500"></canvas>
+					<canvas id="canvas" width="800" height="500" class='opacity00'></canvas>
 				</div>
 			</div>
 			<div id="generalAnimationControlSection">

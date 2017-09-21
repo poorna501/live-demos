@@ -176,9 +176,6 @@ DeQll.prototype.inject = function(elementToInject) {
 		this.introNextStep("#injectElsePrintfBlk", "right", "");
 		this.rearAddressChange();
 		this.rear = this.rear + 1;
-		var nextX = (this.rear - 1) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X;
-		var nextY = Math.floor((this.rear - 1) / LL_ELEMS_PER_LINE) * LL_LINE_SPACING + LL_START_Y;
-		this.cmd("Move", this.tempLabel, nextX + 12, nextY - 20);
 	} else {
 		this.cmd("SetText", this.deQllNext[this.rear - 1], "");
 		var nextX = (this.rear - 1) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X;
@@ -197,6 +194,9 @@ DeQll.prototype.inject = function(elementToInject) {
 		this.rearAddressChange();
 		this.rear = this.rear + 1;
 	}
+	var nextX = (this.rear - 1) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X;
+	var nextY = Math.floor((this.rear - 1) / LL_ELEMS_PER_LINE) * LL_LINE_SPACING + LL_START_Y;
+	this.cmd("Move", this.tempLabel, nextX + 12, nextY - 20);
 	this.resetLinkedListPositions(0);
 	this.cmd("Step");
 	$('#enqueueText').val("");
@@ -352,7 +352,6 @@ DeQll.prototype.eject = function() {
 	this.deQueueRectID = this.nextIndex++;
 	this.deQueueId = this.nextIndex++;
 	this.dummyTmpAdd = this.nextIndex++;
-	
 	$('#mainFun').removeClass("hide");
 	$("#mainCalls *").removeAttr("id");
 	$("#mainCalls").append("<div>\t<span id='lastCall'>eject();</span></div>");
@@ -399,10 +398,19 @@ DeQll.prototype.eject = function() {
 DeQll.prototype.push = function(elementToPush) {
 	this.commands = new Array();
 	
+	$('#mainFun').removeClass("hide");
+	$("#mainCalls *").removeAttr("id");
+	$("#mainCalls").append("<div>\t<span id='lastCall'>push("+ elementToPush +");</span></div>");
+	this.introNextStep("#lastCall", "right", "hide");
+	this.cmd("Step");
+	$("input").attr("disabled", true);
+	$(".function").addClass('hide');
+	$("#pushFun").removeClass('hide');
+	this.introNextStep("#pushFun", "right", "");
 	this.createANodeWithDataAndNext(elementToPush, false);
-	
-	this.assignDataValueAndAddress(elementToInject, false);
-	
+	this.introNextStep("#pushBlk1", "right", "");
+	this.assignDataValueAndAddress(elementToPush, false);
+	this.introNextStep("#pushElsePrintfBlk", "right", "");
 	if (this.rear == 0) {
 		this.cmd("SetPosition", this.frontId, TEMP_WIDTH - 10, TEMP_HEIGHT + CQLL_NEXT_POS_Y);
 		this.cmd("SetText", this.frontId, randomAdd);
@@ -414,7 +422,6 @@ DeQll.prototype.push = function(elementToPush) {
 		var nextX = (this.rear - 1) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X;
 		var nextY = Math.floor((this.rear - 1) / LL_ELEMS_PER_LINE) * LL_LINE_SPACING + LL_START_Y;
 		this.cmd("Move", this.tempLabel, nextX + 12, nextY - 20);
-		
 		this.resetLinkedListPositions(0);
 		this.cmd("Step");
 	} else {
@@ -426,12 +433,20 @@ DeQll.prototype.push = function(elementToPush) {
 		this.cmd("Connect", this.frontRectID, this.deQllData[0]);
 		
 		this.rear = this.rear + 1;
+		var nextX = (0) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X;
+		var nextY = Math.floor((0) / LL_ELEMS_PER_LINE) * LL_LINE_SPACING + LL_START_Y;
+		this.cmd("Move", this.tempLabel, nextX + 12, nextY - 20);
 		this.resetLinkedListPositions(2);
+		this.cmd("Step");
 	}
+	this.cmd("Delete", this.tempLabel);
+	this.cmd("Step");
+	this.introNextStep("#outputDiv", "", "hide");
+	this.cmd("Step");
+	this.introNextStep("#btnsDiv", "left", "");
 	$('#enqueueText').val("");
 	this.cmd("Delete", this.displayText);
 	this.cmd("Delete", this.displayVal);
-	this.cmd("Delete", this.tempLabel);
 	this.cmd("Step");
 	
 	return this.commands;
@@ -500,6 +515,7 @@ DeQll.prototype.assignDataValueAndAddress = function(elementToInject, flag) {
 DeQll.prototype.enjectFunction = function(disPos) {
 	var nextX = (disPos) % LL_ELEMS_PER_LINE * LL_ELEM_SPACING + LL_START_X;
 	var nextY = Math.floor((disPos) / LL_ELEMS_PER_LINE) * LL_LINE_SPACING + LL_START_Y;
+	
 	if (disPos != this.rear - 2) {
 		this.storeTempNextToTempNode(disPos);
 		this.cmd("Delete", this.dummyTmpAdd);
@@ -507,6 +523,8 @@ DeQll.prototype.enjectFunction = function(disPos) {
 		this.cmd("Step");
 		this.enjectFunction(disPos);
 	} else {
+		this.cmd("Step");
+		this.introNextStep("#ejectSetRearToNull", "right", "");
 		this.cmd("Step");
 		this.cmd("CreateLabel", this.dummyTmpAdd, address[this.rear - 2], 220, FRONT_POS_Y);
 		this.cmd("Move", this.dummyTmpAdd, REAR_POS_X, REAR_POS_Y);
@@ -532,6 +550,11 @@ DeQll.prototype.enjectFunction = function(disPos) {
 		this.cmd("SetText", this.deQllNext[this.rear - 2], "NULL");
 		this.cmd("Disconnect", this.deQllNext[this.rear - 2], this.deQllData[this.rear - 1]);
 		this.cmd("Step");
+		this.cmd("Step");
+		
+		this.introNextStep("#ejectElsePrintfBlk", "right", "");
+		this.cmd("Step");
+		this.introNextStep("#animationDiv", "", "hide");
 		this.cmd("Step");
 		this.deleteNode(this.rear - 1);
 		this.rear = this.rear - 1;

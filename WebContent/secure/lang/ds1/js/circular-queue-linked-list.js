@@ -83,8 +83,8 @@ function initIntroJS() {
 			$(".introjs-nextbutton").hide();
 			$(".introjs-helperLayer").one("transitionend", function() {
 				var text = "This is the declaration of a new <y>struct</y> type <y>queue</y>.<br><br>"
-					+ "<ul><li><y>info</y> field is used to hold <y>data</y> inside the linked list.</li>"
-					+ "<li><y>next</y> field is used to keep the <y>address of next node</y>.</li></ul>";
+					+ "<ul><li><y>info</y> field is used to hold the <y>data</y> inside the linked list.</li>"
+					+ "<li><y>next</y> field is used to keep the <y>address</y> of <y>next</y> node.</li></ul>";
 				typing($(".introjs-tooltiptext"), text, function() {
 					$(".introjs-nextbutton").show();
 				});
@@ -94,8 +94,7 @@ function initIntroJS() {
 			$(".introjs-nextbutton").hide();
 			$(".introjs-helperLayer").one("transitionend", function() {
 				$(".introjs-tooltip").removeClass('hide');
-				text = 'The <span class="ct-code-b-yellow">typedef</span> creates a <span class="ct-code-b-yellow">node</span> as a '
-					+ ' new type <span class="ct-code-b-yellow">pointer</span> to <span class="ct-code-b-yellow">struct CircularQueue</span>. '
+				text = 'The <y>typedef</y> creates an <y>alias</y> name as a <y>node</y> to the <y>struct queue</y> which is a <y>pointer</y>'
 				typing(".introjs-tooltiptext", text, function() {
 					$('.introjs-nextbutton').show();
 				});
@@ -105,8 +104,7 @@ function initIntroJS() {
 			$(".introjs-nextbutton").hide();
 			$(".introjs-helperLayer").one("transitionend", function() {
 				$('.introjs-tooltip').removeClass('hide');
-				text = "Here, we are declaring a variables <y>front</y> and <y>rear</y> to the <y>struct</y> type and "
-						+ "initializing it to <y>NULL</y>.";
+				text = "Here, we are declaring and initializing struct pointers <y>front</y> and <y>rear</y> to <y>NULL</y>";
 				typing('.introjs-tooltiptext', text, function() {
 					$('.introjs-nextbutton').show();
 				});
@@ -152,7 +150,8 @@ function initIntroJS() {
 			$(".introjs-nextbutton").hide();
 			introjs.refresh();
 			$(".introjs-helperLayer").one("transitionend", function() {
-				var text = "Here, we are <y>inserting</y> the given element into the <y>queue</y>.";
+				var text = "Here, we are <y>inserting</y> the given element (<y>"+ queue[queue.length - 1] 
+							+"</y>) into the <y>queue</y> at <y>rear</y>.";
 				typing(".introjs-tooltiptext", text, function() {
 					$(".introjs-tooltiptext").append("<ul style='font-family: monospace;'><li><span>int element</span></li></ul>");
 					travel("#enqueueParameter", $(".introjs-tooltiptext ul li:last-child span"), function () {
@@ -230,8 +229,8 @@ function initIntroJS() {
 			$(".introjs-helperLayer").one("transitionend", function() {
 				arrow(fromId, "#enqueueRearInit", function() {
 					$("#enqueueRearInit").addClass("background-color-yellow");
-					var text = "<ul><li>Now change the <y>rear</y> pointer into the <y>temp</y> value (i.e  <y> "+ address[address.length - 1] 
-								+ "</y>).</li><div id='appendDiv'></div><ul>";
+					var text = "<ul><li>The <y>address</y> contained in the <y>temp</y> (<y>"+ address[address.length - 1] 
+								+"</y>) is assigned to the <y>rear</y> node.</li></ul>"
 					typing(".introjs-tooltiptext", text, function() {
 						$(".introjs-tooltipbuttons").append("<a class='introjs-button user-btn' onclick='changeRearNext()'>Next &#8594;</a>")
 					});
@@ -302,6 +301,7 @@ function initIntroJS() {
 			$(".introjs-nextbutton").hide();
 			introjs.refresh();
 			$(".introjs-helperLayer").one("transitionend", function() {
+				arrow("#dequeueElsePrintf", "#dequeueRemoveTemp");
 				$(".background-color-yellow").removeClass("background-color-yellow");
 				$("#dequeueElsePrintf, #dequeueRemoveTemp").addClass("background-color-yellow");
 				var text = "Finally print deleted element <y>"+ queue[0] +"</y> and <y>remove</y> the <y>temp</y>.";
@@ -352,6 +352,7 @@ function initIntroJS() {
 			$(".background-color-yellow").removeClass("background-color-yellow");
 			$(".introjs-helperLayer").one("transitionend", function() {
 				arrow("#displayElsePrintf", "#displayWhile", function() {
+					$('#displayWhilePrintf, #displayTempNext, #displayWhile, #doLoop').addClass("background-color-yellow");
 					var text = "This <y>do while-loop</y> is repeated untill the <y>temp</y> value is not <y>first</y>.";
 					typing(".introjs-tooltiptext", text, function() {
 						$(".introjs-tooltiptext").append("<ul><li></li></ul>");
@@ -428,19 +429,14 @@ function enqueueStep1() {
 	$(".background-color-yellow").removeClass("background-color-yellow");
 	$("#enqueueFirstIfCndtn").addClass("background-color-yellow");
 	$(".introjs-tooltiptext ul").append("<li></li>");
-	var text = "System successfully allocate (release) the heap memory for <y>struct</y> variable <y>temp</y> " 
-		+ "<b style='font-family: monospace;'>i.e. " 
-		+ (address[address.length - 1]) + "</b>";
-	typing($(".introjs-tooltiptext ul li:last"), text, function() {
-		$(".introjs-tooltiptext ul li:last-child").append("<br/><span id='tooltipCndtn' style='font-family: monospace; font-weight: bold;'>" 
-				+ "<span id='tooltipTemp'>temp</span> == NULL</span>");
-		travel("#enqueueFirstIfCndtn", "#tooltipCndtn", function () {
-			flip("#tooltipTemp", (address[address.length - 1]), function() {
-				$(".introjs-tooltiptext ul li:last-child").append("<div></div>");
-				var text = "Evaluates to <r>false</r>, the control enters into the <y>else-block</y>.";
-				typing($(".introjs-tooltiptext ul li:last-child > div:last"), text, function() {
-					$(".introjs-tooltipbuttons").append("<a class='introjs-button user-btn' onclick='enqueueStep2()'>Next &#8594;</a>")
-				});
+	$(".introjs-tooltiptext ul li:last-child").append("<span id='tooltipCndtn' style='font-family: monospace; font-weight: bold;'>" 
+			+ "<span id='tooltipTemp'>temp</span> == NULL</span>");
+	travel("#enqueueFirstIfCndtn", "#tooltipCndtn", function () {
+		flip("#tooltipTemp", (address[address.length - 1]), function() {
+			$(".introjs-tooltiptext ul li:last-child").append("<div></div>");
+			var text = "Evaluates to <r>false</r>, so the control enters into the <y>else-block</y>.";
+			typing($(".introjs-tooltiptext ul li:last-child > div:last"), text, function() {
+				$(".introjs-tooltipbuttons").append("<a class='introjs-button user-btn' onclick='enqueueStep2()'>Next &#8594;</a>")
 			});
 		});
 	});
@@ -474,7 +470,7 @@ function enqueueElseIfBlk() {
 	arrow("#enqueueElseIf", "#enqueueFrontInit", function() {
 		$("#enqueueFrontInit").addClass("background-color-yellow");
 		$(".introjs-tooltiptext ul").append("<li></li>");
-		var text = "Here, we change the <y>front</y> pointer points to temporary variable <y>temp</y>.";
+		var text = "The <y>address</y> contained in <y>temp</y> (<y>"+ address[address.length - 1] +"</y>) is assigned to <y>front</y> node";
 		typing($(".introjs-tooltiptext ul li:last"), text, function() {
 			getIntrojsStep("#animationDiv", "", "", "hide");
 			$(".introjs-nextbutton").removeClass("introjs-disabled").show();
@@ -488,8 +484,8 @@ function enqueueElseIfElseBlk() {
 	arrow("#enqueueElseIf", "#enqueueRearNextInit", function() {
 		$("#enqueueRearNextInit").addClass("background-color-yellow");
 		$(".introjs-tooltiptext ul").append("<li></li>");
-		var text = "Here, we change the <y>rear next</y> pointer point to <y> " + address[address.length - 1] 
-					+ " </y>temporary variable <y>temp</y>.";
+		var text = "Store the <y>address</y> contained in <y>temp</y> (<y>"+ address[address.length - 1]
+					+"</y>) into the <y>next</y> field of <y>rear</y> node.";
 		typing($(".introjs-tooltiptext ul li:last"), text, function() {
 			getIntrojsStep("#animationDiv", "", "", "hide");
 			$(".introjs-nextbutton").removeClass("introjs-disabled").show();
@@ -500,14 +496,22 @@ function enqueueElseIfElseBlk() {
 function changeRearNext() {
 	$(".user-btn").remove();
 	arrow("#enqueueRearInit", "#enqueueRearNextFirstInit", function() {
-		$("#enqueueRearNextFirstInit, #enqueueElsePrintf").addClass("background-color-yellow");
-		var text = "<li>Now change the <y>rear -> next</y> to <y>front</y> value (i.e  <y>"+ address[0] +"</y>).</li> <li>Display "
-					+ " in console <y>Successfully inserted</y>.</li>";
-		typing("#appendDiv", text, function() {
-			$("#output").append("<div class='opacity00'>Successfully inserted.</div>");
-			rearVal++;
-			getIntrojsStep("#animationDiv", "", "", "hide");
-			$(".introjs-nextbutton").removeClass("introjs-disabled").show();
+		$("#enqueueRearNextFirstInit").addClass("background-color-yellow");
+		$(".introjs-tooltiptext ul").append("<li></li>");
+		var text = "store the <y>address</y> contained in <y>front</y> (<y>"+ address[0] 
+					+"</y>) into the <y>next</y> field of <y>rear</y> node."
+		typing($(".introjs-tooltiptext ul li:last"), text, function() {
+			arrow("#enqueueRearNextFirstInit", "#enqueueElsePrintf", function() {
+				$("#enqueueElsePrintf").addClass("background-color-yellow");
+				$(".introjs-tooltiptext ul li:last").append("<li></li>");
+				var text = "Display the message in the console <y>Successfully inserted</y>.";
+				typing($(".introjs-tooltiptext ul li:last"), text, function() {
+					$("#output").append("<div class='opacity00'>Successfully inserted.</div>");
+					rearVal++;
+					getIntrojsStep("#animationDiv", "", "", "hide");
+					$(".introjs-nextbutton").removeClass("introjs-disabled").show();
+				});
+			});
 		});
 	});
 }
@@ -558,7 +562,8 @@ function dequeueElseBlk() {
 	arrow("#dequeueIf", "#dequeueTempInit", function() {
 		$("#dequeueTempInit").addClass("background-color-yellow");
 		$(".introjs-tooltiptext ul").append("<li></li>");
-		var text = "Here, we point this temporary node <y>temp</y> to the <y>front</y> of the <y>queue</y>.";
+		var text = "The <y>address</y> contained in the <y>front</y> (<y>"+ address[0] 
+					+"</y>) is assigned to <y>temp</y> node.";
 		typing($(".introjs-tooltiptext ul li:last"), text, function() {
 			getIntrojsStep("#animationDiv", "", "", "hide");
 			$(".introjs-nextbutton").removeClass("introjs-disabled").show();
@@ -586,7 +591,7 @@ function dequeueElseIfElseBlk() {
 	arrow("#dequeueElseIf", "#dequeueFrontInit", function() {
 		$("#dequeueFrontInit").addClass("background-color-yellow");
 		$(".introjs-tooltiptext ul").append("<li></li>");
-		var text = "Here, we point this temporary node <y>temp</y> to the <y>top</y> of the <y>stack</y>.";
+		var text = "Store the <y>address</y> contained in <y>next</y> field of <y>front</y> into <y>front</y> node";
 		typing($(".introjs-tooltiptext ul li:last"), text, function() {
 			getIntrojsStep("#animationDiv", "", "", "hide");
 			$(".introjs-nextbutton").removeClass("introjs-disabled").show();
@@ -611,7 +616,7 @@ function displayElsePart() {
 	arrow("#displayIf", "#displayFrontToTemp", function() {
 		$("#displayFrontToTemp").addClass("background-color-yellow");
 		$(".introjs-tooltiptext ul").append("<li></li>");
-		var text = "Here, we create a new temporary node <y>temp</y> and pointing to the <y>front</y> of the <y>queue</y>.";
+		var text = "The <y>address</y> contained in <y>front</y> (<y>"+ address[0] +"</y>) is assigned to <y>temp</y> node.";
 		typing($(".introjs-tooltiptext ul li:last"), text, function() {
 			arrow("#displayFrontToTemp", "#displayElsePrintf", function() {
 				$("#displayElsePrintf").addClass("background-color-yellow");

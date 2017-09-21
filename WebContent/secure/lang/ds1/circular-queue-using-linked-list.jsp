@@ -187,14 +187,13 @@ void main() {<div id='mainCalls'></div>
 					<pre class='creampretab4 hide' id='enqueueFun'
 						style="margin-top: 10px;">
 void enqueue(<span id='enqueueParameter'>int element</span>) {
-	<span id='enqueueTempDef'>Q temp = NULL;</span>
-	<span id='initTemp'>temp = (Q)malloc(sizeof(struct queue));</span>
+	<span id='enqueueTempDef'>CircularQueue temp = NULL;</span>
+	<span id='initTemp'>temp = (CircularQueue)malloc(sizeof(struct queue));</span>
 	<span id="enqueueBlk1"><span id='enqueueIf'>if(<span id='enqueueFirstIfCndtn'>temp == NULL</span>) {</span>
 		<span id='enqueueIfPrintf'>printf("Queue is overflow.");</span>
 	} else {
 		<span id='tempInfoInit'>temp -> info = element;</span>
 		<span id='tempNextInit'>temp -> next = NULL;</span>
-		
 		<span id='enqueueElseIfElseBlk'><span id='enqueueElseIf'>if(<span id='enqueueSecondIfCndtn'>front == NULL</span>) {</span>
 			<span id='enqueueFrontInit'>front = temp;</span>
 		} else {
@@ -220,20 +219,19 @@ void dequeue() {
 		} else {
 			<span id='dequeueFrontInit'>front = front -> next;</span>
 		}</span>
-		<span id='dequeueElsePrintfBlk'><span id='dequeueElsePrintf'>printf("Deleted value = "
-		"%d.", temp -> next);</span>
+		<span id='dequeueElsePrintfBlk'><span id='dequeueElsePrintf'>printf("Deleted value = %d", temp -> info);</span>
 		<span id='dequeueRemoveTemp'>free(temp);</span></span>
 	}</span>
 }
 					</pre>
 					<pre class='creampretab4 hide' id='displayFun' style="margin-top: 10px;">
 void display() {
-	<span id='displayBlk1'><span id='displayIf'>if(<span id='displayIfCndtn'>first == NULL</span>) {</span>
+	<span id='displayBlk1'><span id='displayIf'>if(<span id='displayIfCndtn'>front == NULL</span>) {</span>
 		<span id='displayIfPrintf'>printf("Queue is empty.");</span> 
 	} else {
-		<span id='displayFrontToTemp'>Q temp = front;</span>
+		<span id='displayFrontToTemp'>CircularQueue temp = front;</span>
 		<span id='displayElsePrintf'>printf("Elements are : ");</span>
-		<span id='displayBlk2'>do {
+		<span id='displayBlk2'><span id='doLoop'>do {</span>
 			<span id='displayWhilePrintf'>printf("%d ", temp -&gt; info);</span>
 			<span id='displayTempNext'>temp = temp -&gt; next;</span>
 			<span id='displayWhile'>} while(<span id='displayWhileCndtn'>temp != first</span>); </span></span>

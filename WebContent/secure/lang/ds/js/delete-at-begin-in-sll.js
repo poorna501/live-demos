@@ -125,13 +125,13 @@ function introFunction() {
 			case "restartBtn":
 				$('#parentPre').addClass('z-index1000000');
 				$("#restartBtn").removeClass('opacity00');
-				$('.introjs-tooltip').removeClass('hide');
+				/*$('.introjs-tooltip').removeClass('hide');
 				$('.introjs-tooltip').addClass('introjs-tooltip-min-width');
 				text = 'Click to restart.';
-				typing('.introjs-tooltiptext', text, function() {
+				typing('.introjs-tooltiptext', text, function() {*/
 					$('#restartBtn').click(function() {
 						location.reload();
-					});
+					//});
 				});
 			break;
 			}
@@ -410,7 +410,7 @@ function deleteAtBegin() {
 			+ '\t\t<span id="firstNextToFirst" class="position opacity00">Store <g>first -> next</g> value to <g>first</g> node.</span>\n'
 			+ '\t\t<span id="printfdelAtBeg2" class="position opacity00" style="display: inline-block">Print <brown>The deleted element '
 			+ '\n\t\t(temp -> data) from SLL</brown>.</span>\n'
-			+ '\t\t<span id="freeNode" class="position opacity00">Now delete the <g>temp</g> node.</span>\n\t'
+			+ '\t\t<span id="freeNode" class="position opacity00">Now delete the <g>temp</g> node.</span>\n'
 			+ '\t\t<span id="returnTemp" class="opacity00 position">Return the temp node.</span>\n'
 			+ '<span id="close1" class="opacity00">\t}</span>\n'
 			+ '<span id="mClose"></span></span>');

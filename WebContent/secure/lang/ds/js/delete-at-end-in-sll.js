@@ -189,10 +189,10 @@ function introFunction() {
 function convertToCode() {
 	$('.user-btn').remove();
 	transferEffect('#algorithmStepsDiv','#deleteAtEndLogic', function() {
-		zoomInEffect('#parentPre', function() {
-			introNextSteps("#restartBtn", "restartBtn");
-			$('.introjs-nextbutton').show();
-		});
+		$('#parentPre').removeClass('opacity00');
+		introNextSteps("#restartBtn", "restartBtn");
+		$('.introjs-nextbutton').show();
+		
 	});
 }
 
@@ -504,7 +504,7 @@ function deleteAtBegin() {
 	if (lang == 'c') {
 		$('#methodName').html('<span class="ct-green-color ct-css">node</span>'
 				+ ' <span class="ct-green-color ct-css">deleteAtEnd()</span> {');
-		$('#returnLstNde').text('return(lastNode);');
+		$('#returnLstNde').text('return lastNode;');
 		$('#freeLastNode').text("free first;");
 		$('#printfdelAtEnd1').html('printf("Single linked list is empty. So deletion is not possible\\n");');
 		$('#printfdelAtEnd2').html('printf("The deleted element from SLL : %d\\n",lastNode -> data);');
@@ -687,14 +687,26 @@ function fadeInBounceEffectWithTimelineMax(selector1, selector2, callBackFunctio
 		var l2 = $(selector2).offset();
 		var topLength = l1.top - l2.top;
 		var leftLength = l1.left - l2.left;
-		$("body").append("<span id='dummy' class='ct-brown-color ct-fonts' style='position: relative;z-index: 9999999;'>" 
+		$("body").append("<span id='dummy' class='ct-brown-color' style='position: relative;z-index: 9999999;'>" 
 			+ $(selector2).text() + "</span>");
 		$('#dummy').offset({
 			"top": l2.top, 
 			"left": l2.left
 		});
 		$(selector2).text($(selector1).text());
-		timelineMax.from(selector2, 2, {ease: Bounce.easeOut, top: topLength, left: leftLength, onComplete: function() {
+		TweenLite.from(selector2, 2.8, { ease:  Bounce.easeOut, top:l1.top-l2.top, left :l1.left-l2.left, delay :1.3});
+		TweenLite.to($('#dummy'), 1.5, { ease: Sine.easeOut, left:-150 , delay : 2.4, opacity:0 , onComplete: function() {
+			 $(selector2).removeAttr("style")
+				if (typeof callBackFunction === "function") {
+					callBackFunction();
+				}
+			$(selector2).text($(selector1).text());
+			$("#animatinDiv").removeAttr("style");			
+			$('#dummy').remove();
+		}});
+		
+		
+		/*timelineMax.from(selector2, 2, {ease: Bounce.easeOut, top: topLength, left: leftLength, onComplete: function() {
       $(selector2).removeAttr("style")
 			if (typeof callBackFunction === "function") {
 				callBackFunction();
@@ -703,7 +715,7 @@ function fadeInBounceEffectWithTimelineMax(selector1, selector2, callBackFunctio
       		$(selector2).text($(selector1).text());
 			$("#animatinDiv").removeAttr("style");			
 			$('#dummy').remove();
-		}}, "-=0.5");
+		}}, "-=0.5");*/
 	});
 }
 

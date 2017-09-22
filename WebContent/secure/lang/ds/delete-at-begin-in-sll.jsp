@@ -17,7 +17,7 @@
 <script src="/js/jquery-ui-all.js"></script>
 <script src="/js/typewriting.min.js"></script>
 <script src="/js/gs/TweenMax.min.js"></script>
-<script src="/secure/lang/ds/js/delete-at-begin-in-sll.js"></script>
+<script src="js/delete-at-begin-in-sll.js"></script>
 
 <title>Delete-At-Begin-Node-in-SLL</title>
 
@@ -246,7 +246,7 @@ bgw {
 	<div class='col-xs-12 padding00'>
 		<div class="ct-box-main">
 			<div class='margin-top-25 text-center'>
-				<h4 class='label ct-demo-heading' id='headingDiv'>DeleteAtBegin() in Singly Linked List</h4>
+				<h4 class='label ct-demo-heading' id='headingDiv'>deleteAtBegin() in Singly Linked List</h4>
 			</div>
 		</div>
 		<div class='buttons-div'>

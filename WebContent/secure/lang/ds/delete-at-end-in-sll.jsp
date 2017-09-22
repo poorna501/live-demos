@@ -14,13 +14,15 @@
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 
 <script src="/js/jquery-latest.js"></script>
+<script src="/js/jquery-ui-all.js"></script>
+
+
 <script src="/js/intro.js"></script>
 <script src="/js/bootstrap.js"></script>
-<script src="/js/jquery-ui-all.js"></script>
 <script src="/js/typewriting.min.js"></script>
 <script src="/js/gs/TweenMax.min.js"></script>
 <script src="/js/jquery.scrollTo.js"></script>
-<script src="/secure/lang/ds/js/delete-at-end-in-sll.js"></script>
+<script src="js/delete-at-end-in-sll.js"></script>
 
 <style type="text/css">
 
@@ -234,6 +236,11 @@ bgw {
 	z-index: 99999999 !important;
 }
 
+.z-index {
+	position: relative;
+	z-index: 1000000 !important;
+}
+
 </style>
 </head>
 <body>
@@ -241,7 +248,13 @@ bgw {
 <script type="text/javascript">
 	$(document).ready(function() {
 		deleteAtEndNodeAnimation();
-		//$('.opacity00').removeClass('opacity00');
+		
+		$('#firstNode').addClass('z-index').attr({"data-placement": "bottom", "title":"poorna"}).tooltip({
+	        content : "Hello Welcome to Codetantra!!!"
+			
+		});   
+		
+		//function toolti
 	});
 </script>
 
@@ -249,7 +262,7 @@ bgw {
 		<div class='col-xs-12 padding00'>
 			<div class="ct-box-main">
 				<div class='text-center'>
-					<h4 class='label ct-demo-heading' id='headingDiv'>DeleteAtEnd() in Singly Linked List</h4>
+					<h4 class='label ct-demo-heading' id='headingDiv'>deleteAtEnd() in Singly Linked List</h4>
 				</div>
 			</div>
 			

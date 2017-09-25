@@ -4,8 +4,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Delete at End Algorithm</title>
-
 <link rel="stylesheet" href="/css/bootstrap.min.css">
 <link rel="stylesheet" href="/css/jquery-ui.css">
 <link rel="stylesheet" href="/css/introjs.css">
@@ -15,12 +13,14 @@
 
 <script src="/js/jquery-latest.js"></script>
 <script src="/js/intro.js"></script>
-<script src="/js/jquery-ui-all.js"></script>
 <script src="/js/bootstrap.js"></script>
+<script src="/js/jquery-ui-all.js"></script>
 <script src="/js/typewriting.min.js"></script>
 <script src="/js/gs/TweenMax.min.js"></script>
 <script src="/js/jquery.scrollTo.js"></script>
-<script src="js/delete-at-end-in-sll-new.js"></script>
+<script src="js/delete-at-begin-in-sll-new.js"></script>
+
+<title>Delete-At-Begin-Node-in-SLL</title>
 
 <style type="text/css">
 
@@ -117,7 +117,7 @@
 }
 
 .algorithm-steps-Div, #parentPre {
-	height: 300px;
+	height: 250px;
 	background-color: #fffae6;
 	overflow-y: auto; 
 }
@@ -253,23 +253,22 @@ bwBg {
 .padding5 {
 	padding: 5px;
 }
-	
 </style>
 </head>
-<body>
 
+<body>
 <script type="text/javascript">
 	$(document).ready(function() {
+		deleteAtBeginNodeInSllAnimation();
 		//$('.opacity00').removeClass('opacity00');
-		deleteAtEndNodeAnimation();
 	});
 </script>
 
-	<div class='col-xs-12 padding00'>
+<div class='col-xs-12 padding00'>
 		<div class='col-xs-12 padding00'>
 			<div class="ct-box-main">
 				<div class='text-center'>
-					<h4 class='label ct-demo-heading' id='headingDiv'>deleteAtEnd() in Singly Linked List</h4>
+					<h4 class='label ct-demo-heading' id='headingDiv'>deleteAtBegin() in Singly Linked List</h4>
 				</div>
 			</div>
 			
@@ -327,5 +326,6 @@ bwBg {
 			</div>
 		</div>
 	</div>
+
 </body>
-</html>
+</html>.

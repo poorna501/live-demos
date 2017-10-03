@@ -236,6 +236,13 @@ y {
 	color: yellow;
 }
 
+.y {
+	font-family: monospace;
+	font-weight: bold;
+	background-color: yellow; 
+}
+
+
 bwBg {
 	color: white;
 	font-weight: bold;

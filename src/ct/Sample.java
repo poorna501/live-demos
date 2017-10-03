@@ -8,9 +8,6 @@ public class Sample {
 	//	int num2 = Integer.parseInt(args[1]);
 		Sample s = new Sample();
 		s.primeNumBetweenRange(10, 20);
-		
-		
-		
 	}
 	
 	//**********How to get the prime numbers between a given range.*************

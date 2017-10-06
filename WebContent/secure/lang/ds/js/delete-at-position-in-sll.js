@@ -451,7 +451,7 @@ function repeatLoopStep() {
 		text = '<li>Let us take one integer variable <y>i</y> and initialized with <y>1</y>.</li><br/>'
 				+ '<li>Repeat the loop until the <y>i</y> value is <y>less than</y> user entered <y>position</y> (<y>'+ delNum +'</y>) </y>'
 				+ 'if it is <y>true</y>, then check if <y>lastNode</y> is equal to <y>NULL</y> or not if it not NULL then,'
-				+ ' assign <y>last</y> to <y>prev</y> and travels the <y>next</y> field of <y>last</y> to <y>last</y>. otherwise print '
+				+ ' assign <y>last</y> to <y>prev</y> and travers the <y>next</y> field of <y>last</y> to <y>last</y>. otherwise print '
 				+ '<y>No such position in SLL So deletion is not possible</y>';
 	} else {
 		text = '<li>Let us take one integer variable <y>i</y> and initialized with <y>1</y>.</li><br/>'

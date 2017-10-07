@@ -47,7 +47,9 @@ function introFunction() {
 						typing(".introjs-tooltiptext", text, function() {
 							var toolTopText = "first Nodes which stores the starting address of the list";
 							tooltipDisplay("#firstDiv", "bottom", toolTopText);
-							appendNextBtn('.introjs-tooltipbuttons', 'tempEqNull');
+							zoomInEffect('#firstNode', function() {
+								appendNextBtn('.introjs-tooltipbuttons', 'ifTempValueIsNull');
+							});
 						});
 					break;
 					case "tempNotEqNull" :
@@ -74,8 +76,7 @@ function introFunction() {
 				case 'Step1':
 					$('#s1').addClass('opacity00');
 					appendSteps(1);
-					var text = '<ul><li>Let us take one tempary node <g>temp</g> and initialize with <g>first</g> value.</li>'
-								+ '<li>Check the conditin <g>temp</g> is equal to <g>NULL</g> or not.</li>'
+					var text = '<ul><li>Check the conditin <g>first</g> is equal to <g>NULL</g> or not.</li>'
 								+ '<li>If it is <brown>TRUE</brown>, then display <brown>List is Empty</brown>.<span id="btn"></span></li></ul>';
 					$('#stepDes1').html(text);
 					stepCount++;
@@ -87,8 +88,9 @@ function introFunction() {
 				case "Step2" :
 					$('#s2').addClass('opacity00');
 					appendSteps(2);
-					var text = '<ul><li>If it is <brown>FALSE</brown>, repeat the loop untile <g>temp</g> is equal to <g>NULL</g>.'
-								+ 'If it is <g>not NULL</g> then print the <g>data</g> field of <g>temp</g> and assign <g>next</g> field of '
+					var text = '<ul><li>If it is <brown>FALSE</brown>, then take one tempary node <g>temp</g> and initialize with <g>first</g>'
+								+ ' value.</li> <li>Repeat the loop until <g>temp</g> is equal to <g>NULL</g>.</li>'
+								+ ' <li>If it is <g>not NULL</g> then print the <g>data</g> field of <g>temp</g> and assign <g>next</g> field of '
 								+ ' <g>temp</g> to <g>temp</g>, otherwise print <g>NULL</g>.<span id="btn"></span></li></ul>';
 					$('#stepDes2').html(text);
 					stepCount++;
@@ -107,8 +109,8 @@ function introFunction() {
 				switch(animateStep) {
 					case 'first':
 						$('#parentPre').append('<span id="funName">node <g>traverse()</g> { '
-								+ '\n\t<span id="ifTempEqNull" class="opacity00">node temp = first;'
-								+ '\n\tif (<brown>temp == NULL</brown>) {'
+								+ '<span id="ifTempEqNull" class="opacity00">'
+								+ '\n\tif (<brown>first == NULL</brown>) {'
 								+ '\n\t\tprintf("<brown>List is Empty.</brown>");'
 								+ '\n\t} <span id="whileBody"></span>'
 								+'\n}</span>');
@@ -124,10 +126,11 @@ function introFunction() {
 					break;
 					case "second" :
 						$('#whileBody').append('<span id="whileBodyDec"> else {'
+								+ '\n\t\tnode temp = first;'
 								+ '\n\t\twhile (temp != NULL) {'
 								+ '\n\t\t\tprintf("%d", temp -> data);'
 								+ '\n\t\t\ttemp = temp -> next;'
-								+ '\n\t\t}</span>\n\t}');
+								+ '\n\t\t}</span>\n\t\tprintf("NULL");\n\t}');
 						$('#whileBody').addClass('opacity00');
 						$('#algorithmStepsDiv ul:last').effect( "highlight",{color: 'yellow'}, 600, function() {
 							transferEffect('#algorithmStepsDiv ul:last','#whileBody', function() {
@@ -163,9 +166,6 @@ function introFunction() {
 
 function tempEqNull() {
 	$('.user-btn, #btn').remove();
-	if ($('#firstVal').text() == "NULL") {
-		zoomInEffect('#firstNode');
-	} 
 	$('.introjs-tooltiptext ul li:last').after('<li></li>');
 	text = 'Let us take one tempary node (<y>temp</y>) and store the <y>first</y> value (i.e <y> '
 		+ $('#firstVal').text() +'</y>) to <y>temp</y>.';
@@ -193,27 +193,32 @@ function lastNodeAnimation() {
 }
 
 function ifTempValueIsNull() {
+	$('.user-btn, #btn').remove();
 	$('.introjs-tooltiptext ul li:last').after('<li></li>');
-	text = 'Check if <y>temp</y> value is <y>NULL</y>.';
+	text = 'Check if <y>first</y> value is <y>NULL</y>.';
 	typing('.introjs-tooltiptext ul li:last', text, function() {
-		$('.introjs-tooltiptext ul li:last').after('<li></li>');
-		if ($('#tempVal').text() == "NULL") {
-			text = 'If it is <y>TRUE</y>, then display <y>List is Empty.</y>.';
-			typing('.introjs-tooltiptext ul li:last', text, function() {
-				introNextSteps('#algorithmStepsDiv', 'Step'+ stepCount);
-				$('.introjs-nextbutton').show();
-			});
-		} else {
-			text = 'Here, the condition is evaluates to <y>FALSE</y>, so repeat the loop until <y>temp</y> is <y>equal</y> to <y>NULL</y>.<br/>'
-					+' It it is <y>TRUE</y> then, print the <y>data</y> filed of the <y>temp</y> and also traverse the '
-					+ '<y>next</y> field of <y>temp</y> to <y>temp</y> node. Otherwise print <y>NULL</y>';
-			typing('.introjs-tooltiptext ul li:last', text, function() {
-				tempNotNull();
-				
-			});
-		}
+		appendNextBtn('.introjs-tooltipbuttons', 'ifTempValueIsNullAnimation');
 	});
-	
+}
+
+function ifTempValueIsNullAnimation() {
+	$('.user-btn, #btn').remove();
+	$('.introjs-tooltiptext ul li:last').after('<li></li>');
+	if ($('#firstVal').text() == "NULL") {
+		text = 'Here, the condition is evaluates to <y>TRUE</y> so, display <y>List is Empty.</y>.';
+		typing('.introjs-tooltiptext ul li:last', text, function() {
+			introNextSteps('#algorithmStepsDiv', 'Step'+ stepCount);
+			$('.introjs-nextbutton').show();
+		});
+	} else {
+		text = 'Here, the condition is evaluates to <y>FALSE</y>, so repeat the loop until <y>temp</y> is <y>equal</y> to <y>NULL</y>.<br/>'
+				+' It it is <y>TRUE</y> then, print the <y>data</y> filed of the <y>temp</y> and also traverse the '
+				+ '<y>next</y> field of <y>temp</y> to <y>temp</y> node. Otherwise print <y>NULL</y>';
+		typing('.introjs-tooltiptext ul li:last', text, function() {
+			appendNextBtn('.introjs-tooltipbuttons', 'tempNotNull');
+			
+		});
+	}
 }
 
 function tempNotNull() {
@@ -221,15 +226,12 @@ function tempNotNull() {
 	if ($('#tempVal').text() == "NULL") {
 		introNextSteps('#algorithmStepsDiv', 'Step'+ stepCount);
 		$('.introjs-nextbutton').show();
-		
 	} else {
 		$('#traverseVar').removeClass('opacity00');
-		
 		$('#tempVal').parent().effect( "highlight",{color: 'yellow'}, 600, function() {
 			svgAnimatingLineTopToBottom("#animationDiv", "#temp", "#dataDiv" + nodeCount,
 					"#svgId", "line111", "arrow", false, function() {
 				$('#line111').remove();
-				
 				$('#data' + nodeCount).parent().effect( "highlight",{color: 'yellow'}, 600, function() {
 					fromEffectWithTweenMax("#ndata" + nodeCount, "#data"+ nodeCount +"", $("#data" + nodeCount).text(), function() {
 						setTimeout(function() {
@@ -241,19 +243,19 @@ function tempNotNull() {
 										$('#line111').remove();
 										$('#next' + nodeCount).parent().effect( "highlight",{color: 'yellow'}, 600, function() {
 											fadeInBounceEffectWithTimelineMax("#next" + nodeCount, "#tempVal", "bottom", function() {
-													$('#line11').remove();
-													if ($('#next' + nodeCount).text() == "NULL") {
-														$('#ndata4').append('<c>NULL</c>').addClass('opacity00');
-														zoomInEffect('#ndata4', function() {
-															tempNotNull();
-														});
-													} else {
-														svgAnimatingLineTopToBottom("#animationDiv", "#temp", "#dataDiv" + (nodeCount + 1),
-																"#svgId", "line11", "arrow", false, function() {
-																	nodeCount++;
-																	tempNotNull();
-														});
-													}
+												$('#line11').remove();
+												if ($('#next' + nodeCount).text() == "NULL") {
+													$('#ndata4').append('<c>NULL</c>').addClass('opacity00');
+													zoomInEffect('#ndata4', function() {
+														tempNotNull();
+													});
+												} else {
+													svgAnimatingLineTopToBottom("#animationDiv", "#temp", "#dataDiv" + (nodeCount + 1),
+															"#svgId", "line11", "arrow", false, function() {
+																nodeCount++;
+																tempNotNull();
+													});
+												}
 											}); 
 										});
 									});

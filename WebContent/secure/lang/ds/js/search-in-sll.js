@@ -190,7 +190,7 @@ function introFunction() {
 								introNextSteps('#animationDiv', 'tempNotEqNull');
 								appendNextBtn('#btn', 'moveStep');
 							});
-						});
+						}); 
 					break;
 					case "three" :
 						$('#returnCount').append('\n\t\t<span id="p3">printf("The given element is  %d"\n\t\t\t "found at position %d"'

@@ -10,7 +10,7 @@ function deleteAtBeginNodeInSllAnimation() { //call the method to start the intr
 
 function introFunction() {	
 	intro = introJs();
-	intro.setOptions({
+	intro.setOptions({ 
 		showStepNumbers : false,
 		exitOnOverlayClick : false,
 		showBullets : false,

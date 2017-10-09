@@ -296,7 +296,7 @@ bwBg {
 									<div class="col-xs-12 padding00">
 										<div class="col-xs-10" id="countValDiv">
 											<div class="col-xs-3 text-center opacity00" id="countVar">count = <span id="count" class="position">0</span></div>
-											<div class="col-xs-5 text-center opacity00" id="keyVar">key = <span id="key" class="position">10</span></div>
+						 					<div class="col-xs-5 text-center opacity00" id="keyVar">key = <span id="key" class="position">10</span></div>
 										</div>
 									</div>
 								

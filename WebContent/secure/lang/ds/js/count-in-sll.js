@@ -10,7 +10,6 @@ function countInSll() {
 	tooltipDisplay("#temp", "bottom", toolTopText);
 }
 
-
 function introFunction() {
 	intro = introJs();
 	intro.setOptions({

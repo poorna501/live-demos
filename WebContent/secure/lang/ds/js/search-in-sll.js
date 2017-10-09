@@ -1,13 +1,15 @@
-var lang, intro, count = sVal = 0, stepCount = nodeCount = 1 ;
+var lang, intro, count = sVal = 0, stepCount = nodeCount = 1;
+var flag = false;
 
 
 
 function searchInSll() {
+	lang = getURLParameter("lang");
 	declareNodesWhenFunctionCall("currentNode", "currentVal", "currentInDelMtd", "currentNode");
 	svgAppend("#animationDiv", "svgId");
 	svgMarkerAppend("#svgId", "arrow");
 	introFunction();
-	var toolTopText = "This is a tempary node to store the address of node.";
+	var toolTopText = "This is a temporary node to store the address of node.";
 	tooltipDisplay("#currentNode", "bottom", toolTopText);
 }
 
@@ -50,18 +52,28 @@ function introFunction() {
 							var toolTopText = "first Nodes which stores the starting address of the list";
 							tooltipDisplay("#firstDiv", "bottom", toolTopText);
 							zoomInEffect('#firstNode', function() {
-								appendNextBtn('.introjs-tooltipbuttons', 'ifTempValueIsNull');
+								appendNextBtn('.introjs-tooltipbuttons', 'assignElemtoKey');
 							});
 						});
 					break;
 					case "tempNotEqNull" :
-						$('#sumVar, #temp').addClass('opacity00');
-						$('#ifTempEqNull').removeClass('y')
+						count = sVal = 0, nodeCount = 1;
+						$('#firstVal').text('NULL');
+						$('#currentVal').text('');
+						$('#countVar, #currentNode, #keyVar, .status').addClass('opacity00');
+						$('line').remove();
+						$('#dynamicNodes').empty();
+						$('#ifTempEqNull').removeClass('y');
+						$('#whileBody').removeClass('y')
 						$('.introjs-tooltip').removeClass('hide');
 						text = "<ul><li>Let us assume <y>single linked list</y> can contains <y>more than one node</y>."
 							+ "</li><div id='appendDiv'></div></ul>";
 						typing(".introjs-tooltiptext", text, function() {
-							sVal = 50;
+							if (flag) {
+								sVal = 20;
+							} else {
+								sVal = 50;
+							}
 							appendNextBtn('.introjs-tooltipbuttons', 'multipleNodes');
 						});
 					break;
@@ -78,9 +90,10 @@ function introFunction() {
 				case 'Step1':
 					$('#s1').addClass('opacity00');
 					appendSteps(1);
-					var text = '<ul><li>Check the condition <g>first</g> is equal to <g>NULL</g> or not.</li>'
-								+ '<li>If it is <brown>TRUE</brown>, then display <brown>The given element '
-								+ 'is not found in the given SLL</brown>.<span id="btn"></span></li></ul>';
+					var text = '<ul><li>Declare an integer variable <g>key</g> and initialize with user <g>search element</g> to <g>Key</g>.</li>'
+								+ ' <li>Check the condition <g>first</g> is equal to <g>NULL</g> or not.</li>'
+								+ ' <li>If it is <brown>TRUE</brown>, then display <brown>The given element'
+								+ ' is not found in the given SLL</brown>.<span id="btn"></span></li></ul>';
 					$('#stepDes1').html(text);
 					stepCount++;
 					zoomInEffect('#s1', function() {
@@ -91,16 +104,35 @@ function introFunction() {
 				case "Step2" :
 					$('#s2').addClass('opacity00');
 					appendSteps(2);
-					var text = '<ul><li>If it is <brown>FALSE</brown>, then take one tempary node <g>temp</g> and initialize with <g>first</g>'
-								+ ' value.</li> <li>Repeat the loop until <g>temp</g> is equal to <g>NULL</g>.</li>'
-								+ ' <li>If it is <g>not NULL</g> then print the <g>data</g> field of <g>temp</g> and assign <g>next</g> field of '
-								+ ' <g>temp</g> to <g>temp</g>, otherwise print <g>NULL</g>.<span id="btn"></span></li></ul>';
+					var text = '<ul><li>If it is <brown>FALSE</brown>, then take one temporary node <g>currentNode</g> and initialize with <g>first</g>'
+								+ ' value. also take two integer variables <brown>count</brown> and <brown>key</brown>, <g>count</g> will be '
+								+ ' initialized with the value <g>0</g> and key will be initialize with user search element.</li>'
+								+ ' <li>Repeat the loop until the <g>next</g> of <g>currentNode</g> is equal to <g>key</g>.</li>'
+								+ ' <li>If <g>key</g> is <brown>not found</brown> then check the another condition the <g>next</g> filed of '
+								+ ' <g>currentNode</g> is <g>equal</g> to <g>NULL</g></li><li>If is <g>NULL</g> then display '
+								+ ' <brown>The given element is not found in the given SLL</brown>.</li><li>If it is <brown>Not NULL</brown>'
+								+ ' <g>increment</g> the count value by <g>one</g> also travers the <g>next</g> field of <g>currentNode</g>'
+								+ '  to <g>currentNode</g>.<span id="btn"></span></li></ul>';
 					$('#stepDes2').html(text);
 					stepCount++;
 					zoomInEffect('#s2', function() {
+						$('#algorithmStepsDiv').scrollTo('ul li:last', 500);
 						introNextSteps('#mainDiv', 'second');
 						appendNextBtn('#btn', 'moveStep');
 					});
+				break;
+				case "Step3" :
+					$('#s3').addClass('opacity00');
+					appendSteps(3);
+					var text = '<ul><li>If the <g>key</g> value is <brown>found</brown> then display '
+							+ ' <brown>The given element is found at location</brown>.</li><span id="btn"></span></li></ul>';
+			$('#stepDes3').html(text);
+			stepCount++;
+			zoomInEffect('#s3', function() {
+				$('#algorithmStepsDiv').scrollTo('ul li:last', 500);
+				introNextSteps('#mainDiv', 'three');
+				appendNextBtn('#btn', 'moveStep');
+			});
 				break;
 				}
 			break;
@@ -111,14 +143,18 @@ function introFunction() {
 				var animateStep = intro._introItems[intro._currentStep].animateStep;
 				switch(animateStep) {
 					case 'first':
-						$('#parentPre').append('<span id="funName">node <g>search()</g> { '
+						$('#parentPre').append('<span id="funName">node <g>search(int element)</g> { '
 								+ '<span id="ifTempEqNull" class="opacity00">'
+								+ '\n\tint key = element;'
 								+ '\n\tif (<brown>first == NULL</brown>) {'
-								+ '\n\t\tprintf("<brown>The given element %d is"\n\t\t\t'
-								+' "not found in the given"\n\t\t\t" SLL.</brown>", currentNode -> data);'
+								+ '\n\t\t<span id="p1">printf("<brown>The given element %d is"\n\t\t\t'
+								+' "not found in the given"\n\t\t\t" SLL.</brown>", key);</span>'
 								+ '\n\t} <span id="whileBody"></span>'
 								+'\n}</span>');
 						$('#parentPre').removeClass('opacity00');
+						if (lang == 'cpp') {
+							$('#p1').html('cout << "The given element "\n\t\t\t\t\t << key << " is not found in the\n\t\t\t\t\t given SLL.";');
+						}
 						$('#algorithmStepsDiv ul:first').effect( "highlight",{color: 'yellow'}, 600, function() {
 							transferEffect('#algorithmStepsDiv ul:first','#ifTempEqNull', function() {
 								$('#ifTempEqNull').addClass('y').effect( "highlight",{color: 'yellow'}, 600);
@@ -130,20 +166,50 @@ function introFunction() {
 					break;
 					case "second" :
 						$('#whileBody').append('<span id="whileBodyDec"> else {'
-								+ '\n\t\tnode temp = first;'
-								+ '\n\t\twhile (temp != NULL) {'
-								+ '\n\t\t\tprintf("%d", temp -> data);'
-								+ '\n\t\t\ttemp = temp -> next;'
-								+ '\n\t\t}</span>\n\t\tprintf("NULL");\n\t}');
+								+ '\n\t\tnode currentNode = first;'
+								+ '\n\t\tint count = 0'
+								+ '\n\t\twhile (currentNode -> data != key) {'
+								+ '\n\t\t\tif (currentNode -> next == NULL) {'
+								+ '\n\t\t\t\t<span id="p2">printf("<brown>The given element %d is"\n\t\t\t\t\t'
+								+ '"not found in the given"\n\t\t\t\t\t" SLL.</brown>", key);</span>'
+								+ '\n\t\t\t\treturn 0;'
+								+ '\n\t\t\t} else {'
+								+ '\n\t\t\t\tcount++;'
+								+ '\n\t\t\t\tcurrentNode = currentNode -> next;'
+								+ '\n\t\t\t}\n\t\t}<span id="returnCount"></span>');
 						$('#whileBody').addClass('opacity00');
+						if (lang == 'cpp') {
+							$('#p2').html('cout << "The given element " \n\t\t\t\t\t<< key << " is not found in the\n\t\t\t\t\t given SLL.";');
+						}
 						$('#algorithmStepsDiv ul:last').effect( "highlight",{color: 'yellow'}, 600, function() {
 							transferEffect('#algorithmStepsDiv ul:last','#whileBody', function() {
 								$('#whileBody').addClass('y').effect( "highlight",{color: 'yellow'}, 600);
 								$('#funName').after('<span id="btn"></span>');
+								$('#parentPre').scrollTo('#btn', 500);
+								flag = true;
+								introNextSteps('#animationDiv', 'tempNotEqNull');
+								appendNextBtn('#btn', 'moveStep');
+							});
+						});
+					break;
+					case "three" :
+						$('#returnCount').append('\n\t\t<span id="p3">printf("The given element is  %d"\n\t\t\t "found at position %d"'
+								+ 'key, count);</span>');
+						if (lang == 'cpp') {
+							$('#p3').html('\n\t\tcout << "The given element is " \n\t\t\t << key << "found at position " \n\t\t\t << '
+									+ 'count << ".";');
+						}
+						$('#returnCount').addClass('opacity00');
+						$('#algorithmStepsDiv ul:last').effect( "highlight",{color: 'yellow'}, 600, function() {
+							transferEffect('#algorithmStepsDiv ul:last','#returnCount', function() {
+								$('#returnCount').addClass('y').effect( "highlight",{color: 'yellow'}, 600);
+								$('#funName').after('<span id="btn"></span>');
+								$('#parentPre').scrollTo('#btn', 500);
 								introNextSteps('#restartBtn');
 								appendNextBtn('#btn', 'moveStep');
 							});
 						});
+						
 					break;
 				}
 			break;
@@ -164,6 +230,19 @@ function introFunction() {
 	text = " Here, we will learn how to <y>search</y> an element in <y>Singly Linked List</y>.";
 	typing(".introjs-tooltiptext", text, function() {
 		$('.introjs-nextbutton').show();
+	});
+}
+
+function assignElemtoKey() {
+	$('.user-btn, #btn').remove();
+	$('.introjs-tooltiptext ul li:last').after('<li></li>');
+	text = 'Declare an integer variable <y>key</y> and initialize with search element.';
+	typing('.introjs-tooltiptext ul li:last', text, function() {
+		sVal = 10;
+		$('#key').text();
+		zoomInEffect('#keyVar', function() {
+			appendNextBtn('.introjs-tooltipbuttons', 'ifTempValueIsNull');
+		});
 	});
 }
 
@@ -207,7 +286,7 @@ function firstNotEqNull() {
 function firstIsNotNull() {
 	$('.user-btn, #btn').remove();
 	$('.introjs-tooltiptext ul li:last').after('<li></li>');
-	text = 'Here, <y>first</y> is <y>not</y> a <y>NULL</y>, it can contain some <y>address</y>, means <y>list</y> contains some nodes.';
+	text = 'Here, <y>first</y> is <y>not</y> a <y>NULL</y>, means it contains some <y>address</y>, means <y>list</y> contains some nodes.';
 	typing('.introjs-tooltiptext ul li:last', text, function() {
 		appendNextBtn('.introjs-tooltipbuttons', 'declareCurrentNode');
 	});
@@ -216,11 +295,11 @@ function firstIsNotNull() {
 function declareCurrentNode() {
 	$('.user-btn, #btn').remove();
 	$('.introjs-tooltiptext ul li:last').after('<li></li>');
-	text = 'Here, declare one tempary node <y>currentNode</y> and initialize with <y>first</y> value (i.e. <y>'
+	text = 'Declare one temporary node <y>currentNode</y> and initialize with <y>first</y> value (i.e. <y>'
 			+ $('#firstVal').text() +'</y>).';
 	typing('.introjs-tooltiptext ul li:last', text, function() {
 		$('.introjs-tooltiptext ul li:last').after('<li></li>');
-		text = 'Let us take two tempary int variable <y>count</y> and <y>key</y>, count will be initialize with <y>0</y> and key will'
+		text = 'Let us take two temporary int variable <y>count</y> and <y>key</y>, count will be initialize with <y>0</y> and key will'
 				+ ' be initialize with user search element (i.e. <y>'+ sVal +'</y>).';
 		typing('.introjs-tooltiptext ul li:last', text, function() {
 			appendNextBtn('.introjs-tooltipbuttons', 'declareCurrentNodeAnimation');
@@ -235,24 +314,26 @@ function declareCurrentNodeAnimation() {
 		fromEffectWithTweenMax('#currentVal', '#firstVal', function() {
 			svgAnimatingLineTopToBottom("#animationDiv", "#currentNode", "#dataDiv1",
 					"#svgId", "line11", "arrow", false, function() {
+				$('#count').text('0');
+				count = 0;
 				zoomInEffect('#countVar', function() {
 					$('#key').text(sVal);
 					zoomInEffect('#keyVar', function() {
 						$('.introjs-tooltip').css('height','250');
 						$('.introjs-tooltiptext ul li:last').after('<li></li>');
-						text = 'Repeat the loop until the <y>next</y> field of <y>currentNode</y> is <y>equal</y> to user <y>search element</y>.';
+						text = 'Repeat the loop until the <y>next</y> field of <y>currentNode</y> is <y>equal</y> to <y>key</y>.';
 						typing('.introjs-tooltiptext ul li:last', text, function() {
 							$('.introjs-tooltiptext ul li:last').after('<li></li>');
 							text = 'If it is <y>true</y> then check the another condition the <y>next</y> field of <y>currentNode</y> is <y>equal</y>'
 									+' to <y>NULL</y>.';
 							typing('.introjs-tooltiptext ul li:last', text, function() {
 								$('.introjs-tooltiptext ul li:last').after('<li></li>');
-								text = 'If it is <y>TRUE</y>, then display <y>The given element '
+								text = 'If it is <y>NULL</y>, then display <y>The given element '
 										+ 'is not found in the given SLL</y>.<span id="btn"></span>';
 								typing('.introjs-tooltiptext ul li:last', text, function() {
 									$('.introjs-tooltiptext ul li:last').after('<li></li>');
-									text = 'If it is <y>FALSE</y>, then <y>increment</y> the <y>count</y> value by <y>one</y> and also '
-											+'traverse the <y>next</y> filed of <y>temp</y> to <y>temp</y> node.';
+									text = 'If it is <y>not NULL</y>, then <y>increment</y> the <y>count</y> value by <y>one</y> and also '
+											+'traverse the <y>next</y> filed of <y>currentNode</y> to <y>currentNode</y> node.';
 									typing('.introjs-tooltiptext ul li:last', text, function() {
 										appendNextBtn('.introjs-tooltipbuttons', 'repeatLoop');
 									});
@@ -269,7 +350,18 @@ function declareCurrentNodeAnimation() {
 function repeatLoop() {
 	$('.user-btn, #btn').remove();
 	if ($('#data' + nodeCount).text() == sVal) {
-		console.log("Print no such element found in" + count);
+		$('#data' + nodeCount).parent().css({'background-color': '#ccffcc'});
+		$('#status' + nodeCount).empty().append('<i class="fa fa-check" style="color: green"></i>');
+		zoomInEffect('#status' + nodeCount, function() {
+			$('.introjs-tooltiptext ul li:last').after('<li></li>');
+			text = 'Here, the  <y>key</y> value <y>found</y> in <y>count + 1</y> position '
+				+' so, print <y>The given element '+ sVal +' is found at position '+ (count + 1) +'.</y>';
+			typing('.introjs-tooltiptext ul li:last', text, function() {
+				introNextSteps('#algorithmStepsDiv', 'Step'+ stepCount);
+				$('.introjs-nextbutton').show();
+				
+			});
+		});
 	} else {
 		$('#data' + nodeCount).parent().effect( "highlight",{color: 'red'}, 600, function() {
 			$('#key').effect( "highlight",{color: 'red'}, 600, function() {
@@ -300,7 +392,7 @@ function repeatLoop() {
 					} else  {
 						$('#next' + nodeCount).parent().css({'background-color': '#ffcccc'});
 						$('.introjs-tooltiptext ul li:last').after('<li></li>');
-						text = 'Here, the last node next is <y>NULL</y> means there is no more nodes to check'
+						text = 'Here, the next field of <y>currentNode</y> is <y>NULL</y> means there is no more nodes to check'
 								+' so, display <y>The given element '+ sVal +' is not found in the given SLL.</y>';
 						typing('.introjs-tooltiptext ul li:last', text, function() {
 							introNextSteps('#algorithmStepsDiv', 'Step'+ stepCount);

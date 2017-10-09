@@ -1,6 +1,7 @@
 var lang, intro, sum = 0, nodeCount = stepCount = 1;
 
 function countInSll() {
+	lang = getURLParameter("lang");
 	declareNodesWhenFunctionCall("temp", "tempVal", "tempInDelMtd", "temp");
 	svgAppend("#animationDiv", "svgId");
 	svgMarkerAppend("#svgId", "arrow");

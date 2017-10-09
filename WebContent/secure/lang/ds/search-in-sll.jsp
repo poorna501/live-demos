@@ -309,7 +309,7 @@ bwBg {
 												<div class="col-xs-12 padding00">
 												<div class="col-xs-6 padding00 text-center">
 													<span id="dataAddress1" class="position  ct-brown-color ct-fonts opacity00">2318</span>
-												</div>
+		</div>
 											</div>
 										</div>
 										<div class="col-xs-10 text-center" id="searchStatus">
